@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Politicians — CivicConnect{% endblock %}
+{% block body %}
+<div class="shell">
+  <div class="topbar">
+    <a class="topbar__logo" href="{{ url_for('console') }}"><span class="brand__dot"></span>CivicConnect</a>
+    <div class="topbar__nav">
+      <a href="{{ url_for('console') }}">Live Map</a>
+      <a href="{{ url_for('politicians_page') }}" class="active">Politicians</a>
+      <a href="{{ url_for('profile_page', user_id=current_user.id) }}">My Profile</a>
+    </div>
+    <div class="topbar__right">
+      <div class="topbar__user">Signed in as <strong>{{ current_user.name }}</strong></div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </div>
+  <div class="admin-body">
+    <div class="panel">
+      <h2>Verified politicians</h2>
+      <p class="sub">Follow representatives to receive updates on the issues assigned to them.</p>
+      <div id="politician-list" class="job-grid"><p>Loading…</p></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/politicians.js') }}"></script>
+{% endblock %}

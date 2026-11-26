@@ -1,0 +1,55 @@
+title,description,category,subcategory,severity
+Deep pothole by bus stop,The road surface has a deep pothole that makes bikes swerve into traffic.,Roads and Infrastructure,Pothole,High
+Pothole widening near school,Several vehicles hit the broken road section and the hole is growing.,Roads and Infrastructure,Pothole,High
+Road crater after rain,A deep pothole is holding water and is difficult for drivers to see.,Roads and Infrastructure,Pothole,High
+Cracked road surface,The asphalt is broken across a lane and needs repair.,Roads and Infrastructure,Road Damage,Medium
+Damaged junction pavement,The road has cracks and loose pieces near the intersection.,Roads and Infrastructure,Road Damage,Medium
+Uneven road near market,The damaged surface is slowing vehicles and causing minor jolts.,Roads and Infrastructure,Road Damage,Low
+Construction debris blocking drain,Building work has left rubble on the street and blocks the storm drain.,Roads and Infrastructure,Illegal Construction,Medium
+Unapproved work on public road,Construction materials and barriers are obstructing the public road.,Roads and Infrastructure,Illegal Construction,Medium
+Road encroachment by building work,An ongoing construction site has occupied the footpath without a safe passage.,Roads and Infrastructure,Illegal Construction,High
+No water from taps,The neighborhood has had no water supply since yesterday morning.,Water Supply,Water Supply,High
+Water supply stopped,Several homes on the street have no running water for two days.,Water Supply,Water Supply,High
+Low water pressure,Water is reaching houses only as a weak trickle during morning hours.,Water Supply,Water Supply,Medium
+Pipe leaking on street,Water is flowing from a broken pipe and flooding the roadside.,Water Supply,Water Leakage,Medium
+Burst water line,An underground supply pipe has burst and water is covering the lane.,Water Supply,Water Leakage,High
+Dripping public pipe,A public water pipe is leaking continuously near the bus shelter.,Water Supply,Water Leakage,Low
+Dirty drinking water,Tap water looks brown and residents are concerned about contamination.,Water Supply,Contaminated Water,High
+Bad smell in water,Water from the public supply has a strong odor and unusual color.,Water Supply,Contaminated Water,High
+Sediment in water supply,Residents report visible particles in drinking water from their taps.,Water Supply,Contaminated Water,Medium
+Exposed live wire,An electrical cable is hanging low beside a busy pedestrian path.,Electricity,Electrical Hazard,High
+Sparking power cable,A fallen wire is sparking near homes after the storm.,Electricity,Electrical Hazard,High
+Dangerous electrical box,An open electrical panel has exposed wiring at street level.,Electricity,Electrical Hazard,High
+Streetlights are not working,The streetlights on this road are dark and pedestrians cannot see at night.,Electricity,Streetlight,Medium
+Broken lamp post light,The public lamp has stopped working near the crossing.,Electricity,Streetlight,Low
+Dark road after sunset,Several street lamps are out along the residential lane.,Electricity,Streetlight,Medium
+Power outage in the block,Electricity has been out for several homes since this afternoon.,Electricity,Power Outage,Medium
+Repeated electricity cuts,The neighborhood is experiencing repeated power failures today.,Electricity,Power Outage,Medium
+Transformer outage,The local power supply is down and nearby homes have no electricity.,Electricity,Power Outage,High
+Sewage overflowing,Drain water is overflowing onto the road near the homes.,Sanitation,Drainage,High
+Blocked storm drain,The drain is blocked with waste and rainwater is flooding the footpath.,Sanitation,Drainage,Medium
+Open manhole near school,An uncovered drain opening is a serious danger to children walking nearby.,Public Safety,Open Manhole,High
+Garbage bin overflowing,Trash has spilled out of the public bin and is blocking the sidewalk.,Sanitation,Garbage & Waste,Medium
+Uncollected neighborhood waste,Household rubbish has not been collected for several days.,Sanitation,Garbage & Waste,Low
+Illegal dumping beside park,Someone has dumped bags of garbage beside the public park entrance.,Sanitation,Garbage & Waste,Medium
+Public toilet is unusable,The public restroom has broken facilities and needs cleaning.,Sanitation,Public Toilets,Medium
+Toilet water leak,The public toilet is leaking and the floor is unsafe to walk on.,Sanitation,Public Toilets,Medium
+No accessible public restroom,The restroom near the market is closed and there is no nearby alternative.,Sanitation,Public Toilets,Low
+Open manhole beside sidewalk,The manhole cover is missing and a person could fall into the opening.,Public Safety,Open Manhole,High
+Uncovered drain near crossing,There is an open drain beside a busy pedestrian crossing.,Public Safety,Open Manhole,High
+Loose manhole cover,The cover moves when vehicles pass and may become a hazard.,Public Safety,Open Manhole,Medium
+Smoke from public building,Smoke is coming from a public facility and people nearby need assistance.,Public Safety,Fire Hazard,High
+Fire reported at community hall,A fire has started at the community hall and emergency response is needed.,Public Safety,Fire Hazard,High
+Burning waste near homes,An unattended fire is burning beside homes and producing heavy smoke.,Public Safety,Fire Hazard,High
+Unsafe pedestrian path,Debris and broken barriers are forcing people to walk in the traffic lane.,Public Safety,Pedestrian Safety,Medium
+Dangerous crossing for pedestrians,Vehicles do not slow down at the crossing and residents feel unsafe.,Public Safety,Pedestrian Safety,High
+Broken railing near walkway,A damaged railing leaves an unprotected drop beside the footpath.,Public Safety,Pedestrian Safety,Medium
+Traffic light stuck on red,The signal has not changed and traffic is backing up at the junction.,Transportation,Traffic Signal,Medium
+Traffic signal not working,The intersection signal is dark and drivers are confused about right of way.,Transportation,Traffic Signal,High
+Signal timing problem,The traffic lights are stuck on green in one direction during busy hours.,Transportation,Traffic Signal,High
+Bus stop shelter damaged,The public bus shelter roof is broken and passengers have no cover from rain.,Transportation,Bus Stop,Low
+Bus stop sign missing,Passengers cannot identify the correct stop because the sign is gone.,Transportation,Bus Stop,Low
+Crowded bus stop access,The bus stop is blocked by parked vehicles and boarding is difficult.,Transportation,Bus Stop,Medium
+Pedestrian crossing faded,The zebra crossing markings have faded and drivers do not yield.,Transportation,Pedestrian Crossing,Medium
+Crosswalk signal broken,The pedestrian signal does not work at the main crossing.,Transportation,Pedestrian Crossing,High
+Unsafe crossing near market,There are no visible crossing markings near the busy market entrance.,Transportation,Pedestrian Crossing,Medium

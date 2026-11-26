@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+{% block title %}Live Map — CivicConnect{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>html,body{overflow:hidden;}</style>
+{% endblock %}
+{% block body %}
+<div class="shell">
+  <div class="topbar">
+    <a class="topbar__logo" href="{{ url_for('console') }}"><span class="brand__dot"></span>CivicConnect</a>
+    <div class="topbar__nav">
+      <a href="{{ url_for('console') }}" class="active">Live Map</a>
+      {% if current_user.role != 'politician' %}<a href="#" id="nav-my-reports">My Reports</a>{% endif %}
+      <a href="{{ url_for('politicians_page') }}">Politicians</a>
+      {% if current_user.role == 'admin' %}<a href="{{ url_for('admin_page') }}">Admin Console</a>{% endif %}
+      {% if current_user.role == 'worker' %}<a href="{{ url_for('worker_page') }}">Job Board</a>{% endif %}
+      <a href="{{ url_for('profile_page', user_id=current_user.id) }}">My Profile</a>
+    </div>
+    <div class="topbar__right">
+      <div class="topbar__live"><span class="pulse-dot"></span> LIVE</div>
+      <div class="topbar__user">Signed in as <strong>{{ current_user.name }}</strong></div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}" style="color:#fff;border-color:rgba(255,255,255,0.2)">Log out</a>
+    </div>
+  </div>
+
+  <div class="console-body">
+    <div class="rail">
+      <div class="filter-group">
+        <h3>Search</h3>
+        <div class="search-box">
+          <input type="text" id="f-search" placeholder="Search a place or report…" autocomplete="off">
+          <div class="search-results" id="search-results"></div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Status</h3>
+        <div class="chip-list" id="f-status">
+          <div class="chip active" data-value="">All</div>
+          {% for s in lifecycle_statuses %}<div class="chip" data-value="{{ s }}">{{ s }}</div>{% endfor %}
+        </div>
+      </div>
+      <div class="filter-group">
+        <h3>Category</h3>
+        <div class="chip-list" id="f-category">
+          <div class="chip active" data-value="">All</div>
+          {% for c in report_categories %}<div class="chip" data-value="{{ c }}">{{ c }}</div>{% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="map-wrap">
+      <div id="map"></div>
+      <div class="stat-strip">
+        <div class="stat-strip__item total"><span class="n" id="s-total">—</span><span class="l">Total</span></div>
+        <div class="stat-strip__item reported"><span class="n" id="s-reported">—</span><span class="l">Reported</span></div>
+        <div class="stat-strip__item claimed"><span class="n" id="s-claimed">—</span><span class="l">Claimed</span></div>
+        <div class="stat-strip__item progress"><span class="n" id="s-progress">—</span><span class="l">In progress</span></div>
+        <div class="stat-strip__item resolved"><span class="n" id="s-resolved">—</span><span class="l">Resolved</span></div>
+      </div>
+      {% if current_user.role != 'politician' %}
+      <button class="btn btn-amber map-fab" id="btn-report">+ Report an issue</button>
+      {% endif %}
+    </div>
+
+    <div class="rail rail--right">
+      <h3>Popular civic issues</h3>
+      <div id="popular-list"><div class="feed-empty">Loading popular issues…</div></div>
+      </div>
+      <div class="filter-group">
+      <h3>Live activity</h3>
+      <div id="feed-list"><div class="feed-empty">Waiting for activity…</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Report issue -->
+<div class="modal-backdrop" id="modal-report">
+  <div class="modal">
+    <div class="modal__head">
+      <div><h2>Report an issue</h2><p class="sub" style="margin:0;font-size:13px;">Set the location and describe what's wrong.</p></div>
+      <button class="modal__close" data-close>&times;</button>
+    </div>
+    <form id="form-report">
+      <div class="field">
+        <label>Location</label>
+        <div class="location-actions">
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-use-location">📍 Use current location</button>
+          <span class="hint" id="geo-status"></span>
+        </div>
+        <div class="pick-location" id="pick-map"></div>
+        <div class="hint" id="pick-coords">Use your location, or tap the map to drop a pin.</div>
+      </div>
+      <div class="field">
+        <label for="r-title">Title</label>
+        <input id="r-title" name="title" placeholder="e.g. Deep pothole near main gate" required maxlength="200">
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="r-category-group">Issue category</label>
+          <select id="r-category-group" name="category_group">
+            {% for c in report_categories %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="r-subcategory">Subcategory</label>
+          <select id="r-subcategory" name="subcategory"></select>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="r-address">Address / landmark</label>
+          <input id="r-address" name="address" placeholder="Nearest landmark" maxlength="200">
+        </div>
+        <div class="field">
+          <label for="r-politician">Concerned politician (optional)</label>
+          <select id="r-politician" name="concerned_politician_id">
+            <option value="">Not sure / not assigned</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="r-desc">Description</label>
+        <textarea id="r-desc" name="description" rows="4" placeholder="Describe the issue — mention any immediate danger." required maxlength="4000"></textarea>
+        <div class="hint">The TF-IDF + SVM model suggests a category and severity. Review or change them before submitting.</div>
+      </div>
+      <div class="grid-2">
+        <div class="field">
+          <label for="r-severity">Severity</label>
+          <select id="r-severity" name="severity">
+            {% for severity in severities %}<option value="{{ severity }}">{{ severity }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="r-reported-date">Date reported</label>
+          <input id="r-reported-date" name="reported_date" type="date" required>
+        </div>
+      </div>
+      <div class="panel" id="ml-suggestion" style="display:none;margin:0 0 14px;padding:12px;">
+        <strong>Model suggestion</strong>
+        <div id="ml-suggestion-text" class="hint"></div>
+        <div id="duplicate-candidates" class="hint"></div>
+      </div>
+      <div class="field">
+        <label><input id="r-classification-reviewed" name="classification_reviewed" type="checkbox" value="1" required>
+          I reviewed the suggested category and severity and corrected them if needed.</label>
+      </div>
+      <div class="field">
+        <label>Images or videos (up to 5 files, 20 MB per video)</label>
+        <input type="file" id="r-media-input" accept="image/*,video/mp4,video/webm" multiple>
+        <div id="media-preview" class="hint"></div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="btn-submit-report">Submit report</button>
+    </form>
+  </div>
+</div>
+
+<!-- Issue detail -->
+<div class="modal-backdrop" id="modal-detail"><div class="modal" id="modal-detail-content"></div></div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  window.URBANPULSE = {
+    userId: {{ current_user.id }}, role: {{ current_user.role | tojson }},
+    center: [12.9716, 77.5946], subcategories: {{ subcategory_groups | tojson }},
+    lifecycle: {{ lifecycle_statuses | tojson }}
+  };
+</script>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/console.js') }}"></script>
+{% endblock %}

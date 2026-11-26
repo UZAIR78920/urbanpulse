@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Admin Console — CivicConnect{% endblock %}
+{% block body %}
+<div class="shell">
+  <div class="topbar">
+    <a class="topbar__logo" href="{{ url_for('admin_page') }}"><span class="brand__dot"></span>CivicConnect</a>
+    <div class="topbar__nav">
+      <a href="{{ url_for('console') }}">Live Map</a>
+      <a href="{{ url_for('admin_page') }}" class="active">Admin Console</a>
+      <a href="{{ url_for('politicians_page') }}">Politicians</a>
+      <a href="{{ url_for('profile_page', user_id=current_user.id) }}">My Profile</a>
+    </div>
+    <div class="topbar__right">
+      <div class="topbar__live"><span class="pulse-dot"></span> LIVE</div>
+      <div class="topbar__user">Signed in as <strong>{{ current_user.name }}</strong></div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}" style="color:#fff;border-color:rgba(255,255,255,0.2)">Log out</a>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <div class="admin-stats">
+      <div class="cell"><span class="n" id="a-total">—</span><span class="l">Total issues</span></div>
+      <div class="cell"><span class="n" id="a-open">—</span><span class="l">Open (not resolved)</span></div>
+      <div class="cell"><span class="n" id="a-high">—</span><span class="l">High priority open</span></div>
+      <div class="cell"><span class="n" id="a-rate">—</span><span class="l">Resolution rate</span></div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="panel"><h3>Issues by category</h3><div id="chart-category"></div></div>
+      <div class="panel"><h3>Issues by status</h3><div id="chart-status"></div></div>
+    </div>
+
+    <div class="charts-grid-3">
+      <div class="panel"><h3>New reports, last 14 days</h3><div id="chart-trend"></div></div>
+      <div class="panel">
+        <h3>Hotspots <span class="sub-label">— 3+ open issues within 500 m of each other</span></h3>
+        <div id="hotspot-list"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="review-queue-panel" style="margin-bottom:18px;display:none;">
+      <h3>⚠️ Payouts awaiting your decision <span class="sub-label">— the automated photo check flagged these</span></h3>
+      <div id="review-queue-list"></div>
+    </div>
+
+    <div class="panel" id="politician-review-panel" style="margin-bottom:18px;display:none;">
+      <h3>Politician accounts awaiting approval</h3>
+      <div id="politician-review-list"></div>
+    </div>
+
+    <div class="admin-stats" style="margin-bottom:18px;">
+      <div class="cell"><span class="n" id="r-paid">—</span><span class="l">Rewards paid out</span></div>
+      <div class="cell"><span class="n" id="r-reserved">—</span><span class="l">Reserved for live jobs</span></div>
+      <div class="cell"><span class="n" id="r-available">—</span><span class="l">Sponsor budget still free</span></div>
+      <div class="cell"><span class="n" id="r-jobs">—</span><span class="l">Paid jobs</span></div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="panel">
+        <h3>Sponsors <span class="sub-label">— companies funding rewards</span></h3>
+        <div id="sponsor-list"></div>
+        <form class="sponsor-add-form" id="form-add-sponsor">
+          <input type="text" id="sp-name" placeholder="Sponsor / company name" required maxlength="100">
+          <select id="sp-category">
+            <option value="All">All categories</option>
+            {% for c in categories %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+          </select>
+          <input type="number" id="sp-reward" placeholder="₹ per job" min="1" required>
+          <input type="number" id="sp-budget" placeholder="Total budget" min="1" required>
+          <button class="btn btn-primary btn-sm" type="submit">Add</button>
+        </form>
+      </div>
+      <div class="panel">
+        <h3>Top workers <span class="sub-label">— by rewards earned</span></h3>
+        <div id="worker-leaderboard"></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="table-toolbar">
+        <h3 style="margin:0;">Manage issues</h3>
+        <div class="filters">
+          <select id="t-status">
+            <option value="">All statuses</option>
+            {% for s in lifecycle_statuses %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+          </select>
+          <select id="t-category">
+            <option value="">All categories</option>
+            {% for c in categories %}<option value="{{ c }}">{{ c }}</option>{% endfor %}
+          </select>
+          <input type="text" id="t-search" placeholder="Search…">
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('api_export_csv') }}">Export CSV</a>
+        </div>
+      </div>
+      <table class="issues-table">
+        <thead>
+          <tr><th>Issue</th><th>Category</th><th>Priority</th><th title="Severity + votes + waiting time">Impact</th>
+              <th>Votes</th><th>Reported</th><th>Worker / Reward</th><th>Status / Lifecycle</th></tr>
+        </thead>
+        <tbody id="issues-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script>const ADMIN_STATUSES = {{ admin_statuses | tojson }}; const ADMIN_LIFECYCLE = {{ lifecycle_statuses | tojson }};</script>
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}CivicConnect — Real-Time Civic Issue Intelligence{% endblock %}
+{% block body %}
+<div class="landing">
+  <div class="landing__brand">
+    <div class="brand__mark"><span class="brand__dot"></span> CIVICCONNECT / COMMUNITY NETWORK</div>
+
+    <div class="brand__headline">
+      <h1>Every pothole,<br>outage and overflow —<br>one live map.</h1>
+      <p>Citizens report problems, skilled local workers claim and fix them for a
+         sponsor-funded reward, and the municipal office sees priorities, hotspots
+         and payouts in real time.</p>
+    </div>
+
+    <div class="brand__stats">
+      <div class="brand__stat"><span class="num">{{ stats.reported }}</span><span class="lbl">Issues reported</span></div>
+      <div class="brand__stat"><span class="num">{{ stats.resolved }}</span><span class="lbl">Issues resolved</span></div>
+      <div class="brand__stat"><span class="num">₹{{ '%.0f' | format(stats.paid) }}</span><span class="lbl">Rewards paid to workers</span></div>
+    </div>
+  </div>
+
+  <div class="landing__auth">
+    <div class="auth-card">
+      <div class="auth-tabs">
+        <a href="#" id="tab-login" class="tab-link active">Log in</a>
+        <a href="#" id="tab-register" class="tab-link">Register</a>
+      </div>
+
+      {% if error %}<div class="form-error">{{ error }}</div>{% endif %}
+
+      <form id="form-login" method="POST" action="{{ url_for('login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <h2>Welcome back</h2>
+        <p class="sub">You'll land on the right portal for your account automatically.</p>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" name="password" placeholder="••••••••" required>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Log in</button>
+      </form>
+
+      <form id="form-register" method="POST" action="{{ url_for('register') }}" style="display:none">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <h2>Create your account</h2>
+        <p class="sub" id="reg-sub"></p>
+
+        <div class="field">
+          <label>I am registering as</label>
+          <div class="account-type-toggle" id="register-role-toggle">
+            <label class="at-option {{ 'active' if account_type == 'citizen' }}">
+              <input type="radio" name="account_type" value="citizen" {{ 'checked' if account_type == 'citizen' }}> Citizen
+              <span class="at-desc">Report &amp; track issues</span>
+            </label>
+            <label class="at-option {{ 'active' if account_type == 'worker' }}">
+              <input type="radio" name="account_type" value="worker" {{ 'checked' if account_type == 'worker' }}> Skilled worker
+              <span class="at-desc">Claim jobs &amp; earn rewards</span>
+            </label>
+            <label class="at-option {{ 'active' if account_type == 'politician' }}">
+              <input type="radio" name="account_type" value="politician" {{ 'checked' if account_type == 'politician' }}> Politician
+              <span class="at-desc">Respond to assigned civic issues</span>
+            </label>
+            <label class="at-option {{ 'active' if account_type == 'admin' }}">
+              <input type="radio" name="account_type" value="admin" {{ 'checked' if account_type == 'admin' }}> Admin
+              <span class="at-desc">Municipal office</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="reg-name">Full name</label>
+          <input id="reg-name" type="text" name="name" placeholder="Asha Rao" maxlength="100" required>
+        </div>
+        <div class="field">
+          <label for="reg-email">Email</label>
+          <input id="reg-email" type="email" name="email" placeholder="you@example.com" required>
+        </div>
+
+        <div class="field" id="field-skill" style="display:none;">
+          <label for="reg-skill">Your profession</label>
+          <select id="reg-skill" name="skill">
+            {% for s in skills %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+          </select>
+          <div class="hint">You will only see and be able to claim jobs that match this profession.</div>
+        </div>
+
+        <div class="field" id="field-admin-code" style="display:none;">
+          <label for="reg-admin-code">Admin invite code</label>
+          <input id="reg-admin-code" type="text" name="admin_code" placeholder="Ask your municipal administrator" autocomplete="off">
+          <div class="hint">Admins can approve payouts and edit sponsor budgets, so they can't self-register without a code.</div>
+        </div>
+
+        <div class="field" id="field-politician-profile" style="display:none;">
+          <label for="reg-politician-title">Official title</label>
+          <input id="reg-politician-title" type="text" name="politician_title" maxlength="100" placeholder="Councillor">
+          <label for="reg-politician-constituency" style="margin-top:10px;">Constituency</label>
+          <input id="reg-politician-constituency" type="text" name="politician_constituency" maxlength="120" placeholder="Ward or constituency">
+          <div class="hint">Requires an official government email, email verification, and administrator approval.</div>
+        </div>
+
+        <div class="field">
+          <label for="reg-password">Password</label>
+          <input id="reg-password" type="password" name="password" placeholder="At least 8 characters" required minlength="8">
+        </div>
+        <button class="btn btn-primary btn-block" type="submit">Create account</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+  const forms = { login: $('form-login'), register: $('form-register') };
+  const tabs = { login: $('tab-login'), register: $('tab-register') };
+
+  function showTab(name) {
+    for (const k in forms) {
+      forms[k].style.display = k === name ? 'block' : 'none';
+      tabs[k].classList.toggle('active', k === name);
+    }
+  }
+  for (const k in tabs) tabs[k].addEventListener('click', (e) => { e.preventDefault(); showTab(k); });
+
+  const SUBTITLE = {
+    citizen: 'Report issues in your neighbourhood and track how the city responds.',
+    worker: 'Browse jobs matching your skill near you, claim one, and earn a reward when it is fixed.',
+    admin: 'Oversee every issue, review flagged payouts and manage sponsor funding.',
+    politician: 'Verify your official email and wait for an administrator to approve your account.',
+  };
+  function applyRole(role) {
+    $('field-skill').style.display = role === 'worker' ? 'block' : 'none';
+    $('field-admin-code').style.display = role === 'admin' ? 'block' : 'none';
+    $('field-politician-profile').style.display = role === 'politician' ? 'block' : 'none';
+    $('reg-admin-code').required = role === 'admin';
+    $('reg-sub').textContent = SUBTITLE[role];
+  }
+
+  const options = document.querySelectorAll('#register-role-toggle .at-option');
+  options.forEach(opt => opt.addEventListener('click', () => {
+    options.forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    const input = opt.querySelector('input');
+    input.checked = true;
+    applyRole(input.value);
+  }));
+
+  applyRole('{{ account_type }}');
+  {% if mode == 'register' %}showTab('register');{% endif %}
+</script>
+{% endblock %}

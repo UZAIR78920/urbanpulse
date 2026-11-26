@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Job Board — CivicConnect{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+{% endblock %}
+{% block body %}
+<div class="shell">
+  <div class="topbar">
+    <a class="topbar__logo" href="{{ url_for('worker_page') }}"><span class="brand__dot"></span>CivicConnect</a>
+    <div class="topbar__nav">
+      <a href="{{ url_for('worker_page') }}" class="active">Job Board</a>
+      <a href="{{ url_for('console') }}">Live Map</a>
+      <a href="{{ url_for('politicians_page') }}">Politicians</a>
+      <a href="{{ url_for('profile_page', user_id=current_user.id) }}">My Profile</a>
+    </div>
+    <div class="topbar__right">
+      <div class="topbar__live"><span class="pulse-dot"></span> LIVE</div>
+      <div class="topbar__user">Signed in as <strong>{{ current_user.name }}</strong></div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}" style="color:#fff;border-color:rgba(255,255,255,0.2)">Log out</a>
+    </div>
+  </div>
+
+  <div class="worker-body">
+    <div class="wallet-banner">
+      <div class="wallet-banner__left">
+        <div class="wallet-banner__label">Total earnings</div>
+        <div class="wallet-banner__amount" id="w-wallet">₹—</div>
+      </div>
+      <div class="wallet-banner__stats">
+        <div><span class="ws-num" id="w-active">—</span><span class="ws-lbl">Active jobs (max {{ max_claims }})</span></div>
+        <div><span class="ws-num" id="w-resolved">—</span><span class="ws-lbl">Jobs completed</span></div>
+        <div><span class="ws-num" id="w-available">—</span><span class="ws-lbl">Open jobs for you</span></div>
+      </div>
+    </div>
+
+    <div class="loc-bar needs-location" id="loc-bar">
+      <div class="loc-bar__info">
+        <div class="loc-bar__title">Your work area</div>
+        <div class="loc-bar__value" id="loc-value">Not set — set it to see jobs near you</div>
+        <div class="loc-bar__msg" id="loc-msg"></div>
+      </div>
+      <div class="loc-bar__controls">
+        <button type="button" class="btn btn-primary btn-sm" id="btn-loc-me">📍 Use my current location</button>
+        <div class="search-box">
+          <input type="text" id="loc-search" placeholder="…or search an area" autocomplete="off">
+          <div class="search-results" id="loc-search-results"></div>
+        </div>
+        <select id="loc-radius" title="Travel distance">
+          {% for km in (2, 5, 10, 25, 50) %}<option value="{{ km }}">Within {{ km }} km</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="worker-tabs">
+      <button data-panel="panel-available" class="active">Available Jobs</button>
+      <button data-panel="panel-mine">My Jobs</button>
+      <button data-panel="panel-history">Earnings</button>
+    </div>
+
+    <div class="worker-panel active" id="panel-available">
+      <div class="skill-note">
+        You are registered as <strong>{{ skill }}</strong>, so this board only lists jobs you can do:
+        {{ my_categories | join(', ') }}. Each job shows the reward that is reserved for it.
+      </div>
+      <div class="filter-group" style="margin-bottom:16px;">
+        <div class="chip-list" id="w-category-filter">
+          <div class="chip active" data-value="">All my categories</div>
+          {% for c in my_categories %}<div class="chip" data-value="{{ c }}">{{ c }}</div>{% endfor %}
+        </div>
+      </div>
+      <div class="job-grid" id="available-grid"><div class="empty-state">Loading jobs…</div></div>
+      <p class="hint" id="funding-note" style="display:none;margin-top:12px;"></p>
+    </div>
+
+    <div class="worker-panel" id="panel-mine">
+      <div id="pending-review-section" style="display:none; margin-bottom:20px;">
+        <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:10px;">Waiting for ward review</h3>
+        <div id="pending-review-grid" class="job-grid"></div>
+      </div>
+      <div class="job-grid" id="mine-grid"><div class="empty-state">Loading your jobs…</div></div>
+    </div>
+
+    <div class="worker-panel" id="panel-history">
+      <div class="panel">
+        <h3>Rewards received</h3>
+        <div id="history-list"><p style="font-size:13px;color:var(--text-muted);">Loading…</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resolve job -->
+<div class="modal-backdrop" id="modal-resolve">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal__head">
+      <div><h2>Submit completed work</h2>
+        <p class="sub" style="margin:0;font-size:13px;">A photo of the finished work is required to release your reward.</p></div>
+      <button class="modal__close" data-close>&times;</button>
+    </div>
+    <form id="form-resolve">
+      <div class="field">
+        <label for="resolve-note">What did you do?</label>
+        <textarea id="resolve-note" rows="3" placeholder="e.g. Replaced the damaged section of pipe and tested the flow." required></textarea>
+      </div>
+      <div class="field">
+        <label>Photo of the completed work <span style="font-weight:400;color:var(--text-muted);">(required)</span></label>
+        <button type="button" class="btn btn-ghost btn-sm" id="btn-resolve-photo">📷 Take photo</button>
+        <input type="file" id="resolve-photo-input" accept="image/*" capture="environment" style="display:none;">
+        <div class="photo-preview" id="resolve-photo-preview" style="display:none;">
+          <img id="resolve-photo-preview-img" alt="Proof of completion">
+          <button type="button" class="btn btn-ghost btn-sm" id="btn-resolve-remove-photo">Retake</button>
+        </div>
+        <div class="hint">The photo is checked automatically (not dark, not blurry, not the original report photo). Anything flagged goes to a ward admin instead of being paid instantly.</div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="btn-submit-resolve">Submit &amp; request reward</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/worker.js') }}"></script>
+{% endblock %}

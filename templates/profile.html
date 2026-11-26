@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ profile.name }} — CivicConnect{% endblock %}
+{% block body %}
+<div class="shell">
+  <div class="topbar">
+    <a class="topbar__logo" href="{{ url_for('console') }}"><span class="brand__dot"></span>CivicConnect</a>
+    <div class="topbar__nav">
+      <a href="{{ url_for('console') }}">Live Map</a>
+      <a href="{{ url_for('politicians_page') }}">Politicians</a>
+      <a href="{{ url_for('profile_page', user_id=current_user.id) }}">My Profile</a>
+    </div>
+    <div class="topbar__right">
+      <div class="topbar__user">Signed in as <strong>{{ current_user.name }}</strong></div>
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </div>
+  <div class="admin-body">
+    <section class="panel">
+      <h1>{{ profile.name }}</h1>
+      {% if profile.portal_role == 'politician' %}
+      <p class="sub">{{ profile.politician_title or 'Politician' }}{% if profile.politician_constituency %} · {{ profile.politician_constituency }}{% endif %}</p>
+      {% else %}
+      <p class="sub">{{ profile.role | title }}</p>
+      {% endif %}
+      {% if profile.portal_role == 'politician' and current_user.id != profile.id %}
+      <button class="btn btn-primary btn-sm" id="btn-follow-politician">Follow</button>
+      {% endif %}
+    </section>
+    <div class="admin-stats">
+      <div class="cell"><span class="n">{{ profile_data.civic_xp }}</span><span class="l">Civic XP</span></div>
+      {% if profile.portal_role == 'politician' %}
+      <div class="cell"><span class="n">{{ profile_data.assigned }}</span><span class="l">Issues assigned</span></div>
+      <div class="cell"><span class="n">{{ profile_data.resolved }}</span><span class="l">Issues resolved</span></div>
+      <div class="cell"><span class="n">{{ profile_data.verified }}</span><span class="l">Issues verified</span></div>
+      <div class="cell"><span class="n">{{ profile_data.accountability_rate }}%</span><span class="l">Verified resolution rate</span></div>
+      {% else %}
+      <div class="cell"><span class="n">{{ profile_data.reported }}</span><span class="l">Problems reported</span></div>
+      <div class="cell"><span class="n">{{ profile_data.verified }}</span><span class="l">Problems verified resolved</span></div>
+      {% endif %}
+    </div>
+    <div class="charts-grid">
+      <div class="panel"><h3>Monthly contributions</h3><div id="profile-monthly"></div></div>
+      <div class="panel"><h3>Category-wise contributions</h3><div id="profile-categories"></div></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+  window.PROFILE = {
+    id: {{ profile_data.id }}, role: {{ profile_data.role | tojson }},
+    monthly: {{ profile_data.monthly | tojson }}, categories: {{ profile_data.categories | tojson }},
+    followed: {{ profile_data.followed_by_me | default(false) | tojson }}
+  };
+</script>
+<script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

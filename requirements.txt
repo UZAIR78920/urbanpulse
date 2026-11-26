@@ -1,0 +1,3 @@
+Flask>=3.0
+Pillow>=10.0   # required: validates/re-encodes uploads and powers the photo-verification checks
+scikit-learn>=1.4,<2.0   # TF-IDF + linear SVM civic issue classification
