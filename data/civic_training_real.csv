@@ -1,0 +1,390 @@
+problem,problem_detail,additional_detail,location_type,category_group,subcategory,created_date
+ELECTRIC,OUTLET/SWITCH,OUTLET SEALED OR DEFECTIVE,RESIDENTIAL BUILDING,Electricity,Electrical Hazard,2026-11-26T22:54:38.000
+ELECTRIC,WIRING,EXPOSED,RESIDENTIAL BUILDING,Electricity,Electrical Hazard,2026-11-26T16:54:19.000
+ELECTRIC,WIRING,FUSE BLOWS OUT,RESIDENTIAL BUILDING,Electricity,Electrical Hazard,2026-11-25T13:35:27.000
+ELECTRIC,WIRING,ILLEGAL,RESIDENTIAL BUILDING,Electricity,Electrical Hazard,2026-11-26T21:03:38.000
+ELECTRIC,POWER OUTAGE,ENTIRE APARTMENT,RESIDENTIAL BUILDING,Electricity,Power Outage,2026-11-26T23:21:29.000
+ELECTRIC,POWER OUTAGE,ENTIRE BUILDING,RESIDENTIAL BUILDING,Electricity,Power Outage,2026-11-26T23:04:38.000
+ELECTRIC,POWER OUTAGE,HALLS AND STAIRS ONLY,RESIDENTIAL BUILDING,Electricity,Power Outage,2026-11-26T21:33:07.000
+ELECTRIC,POWER OUTAGE,MULTIPLE ROOMS OR AREAS,RESIDENTIAL BUILDING,Electricity,Power Outage,2026-11-26T20:43:17.000
+ELECTRIC,LIGHTING,DIMS OR FLICKERS,RESIDENTIAL BUILDING,Electricity,Streetlight,2026-11-26T17:23:13.000
+ELECTRIC,LIGHTING,FIXTURE MISSING/HANGING/LOOSE,RESIDENTIAL BUILDING,Electricity,Streetlight,2026-11-26T09:26:54.000
+ELECTRIC,LIGHTING,FIXTURE SPARKS WHEN TURNED ON,RESIDENTIAL BUILDING,Electricity,Streetlight,2026-11-26T15:34:32.000
+ELECTRIC,LIGHTING,FIXTURE WET OR FLOODED,RESIDENTIAL BUILDING,Electricity,Streetlight,2026-11-26T21:50:34.000
+ELECTRIC,NO LIGHTING,ONE ROOM OR AREA,RESIDENTIAL BUILDING,Electricity,Streetlight,2026-11-26T22:33:10.000
+Street Light Condition,Fixture/Luminaire Damaged,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T15:49:00.000
+Street Light Condition,Fixture/Luminaire Damaged,Location Type: Other,,Electricity,Streetlight,2026-11-25T00:29:00.000
+Street Light Condition,Fixture/Luminaire Damaged,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T14:53:00.000
+Street Light Condition,Fixture/Luminaire Door Open,Location Type: Intersection,,Electricity,Streetlight,2026-11-24T17:09:00.000
+Street Light Condition,Fixture/Luminaire Hanging,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T01:10:00.000
+Street Light Condition,Fixture/Luminaire Hanging,Location Type: Other,,Electricity,Streetlight,2026-11-26T17:40:00.000
+Street Light Condition,Fixture/Luminaire Hanging,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T23:40:00.000
+Street Light Condition,Fixture/Luminaire Missing,Location Type: Intersection,,Electricity,Streetlight,2026-11-21T18:15:00.000
+Street Light Condition,Fixture/Luminaire Out Of Position,Location Type: Intersection,,Electricity,Streetlight,2026-11-22T06:20:00.000
+Street Light Condition,Fixture/Luminaire Out Of Position,Location Type: Residential Address,,Electricity,Streetlight,2026-11-23T21:51:00.000
+Street Light Condition,Flood Light Lamp Dayburning,Location Type: Intersection,,Electricity,Streetlight,2026-11-20T21:47:00.000
+Street Light Condition,Flood Light Lamp Out,Location Type: Intersection,,Electricity,Streetlight,2026-11-24T23:49:00.000
+Street Light Condition,Flood Light Lamp Out,Location Type: Residential Address,,Electricity,Streetlight,2026-11-24T23:44:00.000
+Street Light Condition,Glassware Broken,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T21:05:00.000
+Street Light Condition,Glassware Missing,Location Type: Highway,,Electricity,Streetlight,2026-11-22T19:39:00.000
+Street Light Condition,Lamppost Base Door/Cover Damaged,Location Type: Intersection,,Electricity,Streetlight,2026-11-24T16:49:00.000
+Street Light Condition,Lamppost Base Door/Cover Missing,Location Type: Intersection,,Electricity,Streetlight,2026-11-21T17:28:00.000
+Street Light Condition,Lamppost Base Door/Cover Open,Location Type: Intersection,,Electricity,Streetlight,2026-11-25T09:35:00.000
+Street Light Condition,Lamppost Damaged,Location Type: Intersection,,Electricity,Streetlight,2026-11-21T17:22:00.000
+Street Light Condition,Lamppost Damaged,Location Type: Residential Address,,Electricity,Streetlight,2026-11-23T20:50:00.000
+Street Light Condition,Lamppost Knocked Down,Location Type: Highway,,Electricity,Streetlight,2026-11-26T16:35:00.000
+Street Light Condition,Lamppost Knocked Down,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T20:20:00.000
+Street Light Condition,Lamppost Knocked Down,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T19:58:00.000
+Street Light Condition,Lamppost Leaning,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T19:05:00.000
+Street Light Condition,Lamppost Leaning,Location Type: Park,,Electricity,Streetlight,2026-11-24T10:42:00.000
+Street Light Condition,Lamppost Leaning,Location Type: Residential Address,,Electricity,Streetlight,2026-11-25T21:04:00.000
+Street Light Condition,Lamppost Missing,Location Type: Highway,,Electricity,Streetlight,2026-11-25T13:01:00.000
+Street Light Condition,Lamppost Missing,Location Type: Intersection,,Electricity,Streetlight,2026-11-25T13:03:00.000
+Street Light Condition,Lamppost Missing,Location Type: Residential Address,,Electricity,Streetlight,2026-11-24T00:28:00.000
+Street Light Condition,Lamppost Wire Exposed,Location Type: Intersection,,Electricity,Streetlight,2026-11-23T08:43:00.000
+Street Light Condition,Lamppost Wire Exposed,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T13:49:00.000
+Street Light Condition,Multiple St Lts Dayburning,Location Type: Intersection,,Electricity,Streetlight,2026-11-22T11:28:00.000
+Street Light Condition,Multiple Street Lights Out,Location Type: Highway,,Electricity,Streetlight,2026-11-26T01:01:00.000
+Street Light Condition,Multiple Street Lights Out,Location Type: Intersection,,Electricity,Streetlight,2026-11-25T14:02:00.000
+Street Light Condition,Multiple Street Lights Out,Location Type: Other,,Electricity,Streetlight,2026-11-25T13:47:00.000
+Street Light Condition,Multiple Street Lights Out,Location Type: Park,,Electricity,Streetlight,2026-11-24T10:54:00.000
+Street Light Condition,Multiple Street Lights Out,Location Type: Residential Address,,Electricity,Streetlight,2026-11-25T12:05:00.000
+Street Light Condition,Street Light Cycling,Location Type: Intersection,,Electricity,Streetlight,2026-11-24T21:39:00.000
+Street Light Condition,Street Light Cycling,Location Type: Other,,Electricity,Streetlight,2026-11-21T10:45:00.000
+Street Light Condition,Street Light Cycling,Location Type: Park,,Electricity,Streetlight,2026-11-24T11:59:00.000
+Street Light Condition,Street Light Cycling,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T19:03:00.000
+Street Light Condition,Street Light Dayburning,Location Type: Intersection,,Electricity,Streetlight,2026-11-24T16:27:00.000
+Street Light Condition,Street Light Dayburning,Location Type: Residential Address,,Electricity,Streetlight,2026-11-21T14:44:00.000
+Street Light Condition,Street Light Lamp Dim,Location Type: Intersection,,Electricity,Streetlight,2026-11-25T22:21:00.000
+Street Light Condition,Street Light Lamp Dim,Location Type: Residential Address,,Electricity,Streetlight,2026-11-21T12:29:00.000
+Street Light Condition,Street Light Lamp Missing,Location Type: Highway,,Electricity,Streetlight,2026-11-25T09:15:00.000
+Street Light Condition,Street Light Lamp Missing,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T23:53:00.000
+Street Light Condition,Street Light Out,Location Type: Bridge / Tunnel,,Electricity,Streetlight,2026-11-24T17:46:00.000
+Street Light Condition,Street Light Out,Location Type: Highway,,Electricity,Streetlight,2026-11-26T17:36:00.000
+Street Light Condition,Street Light Out,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T23:58:00.000
+Street Light Condition,Street Light Out,Location Type: Other,,Electricity,Streetlight,2026-11-26T21:08:00.000
+Street Light Condition,Street Light Out,Location Type: Park,,Electricity,Streetlight,2026-11-26T07:53:00.000
+Street Light Condition,Street Light Out,Location Type: Residential Address,,Electricity,Streetlight,2026-11-26T23:36:00.000
+Street Light Condition,Traffic Signal Light,Location Type: Intersection,,Electricity,Streetlight,2026-11-26T13:05:00.000
+Hazardous Materials,Chemical Odor (HD1),HD1,,Public Safety,Environmental Hazard,2026-07-28T12:16:00.000
+Hazardous Materials,Chemical Spill/Release (HA1),HA1,,Public Safety,Environmental Hazard,2026-07-28T13:28:00.000
+Hazardous Materials,"Oil Spill On Street, Large (HQL)",HQL,,Public Safety,Environmental Hazard,2026-07-28T11:11:00.000
+Hazardous Materials,"Oil Spill On Street, Small (HQS)",HQS,,Public Safety,Environmental Hazard,2026-07-25T11:31:00.000
+Hazardous Materials,"Unsafe Chemical, Abandoned (HC2)",HC2,,Public Safety,Environmental Hazard,2026-07-25T11:05:00.000
+Hazardous Materials,"Unsafe Chemical, Storage (HC1)",HC1,,Public Safety,Environmental Hazard,2026-07-23T12:49:00.000
+Damaged Tree,Branch Cracked and Will Fall,Hanging from Other Branches,Street,Public Safety,Pedestrian Safety,2026-11-26T20:45:18.000
+Damaged Tree,Branch Cracked and Will Fall,Hanging from Wires,Street,Public Safety,Pedestrian Safety,2026-11-26T15:56:27.000
+Damaged Tree,Branch Cracked and Will Fall,Other,Street,Public Safety,Pedestrian Safety,2026-11-26T20:14:50.000
+Damaged Tree,Branch or Limb Has Fallen Down,Blocking Driveway,Street,Public Safety,Pedestrian Safety,2026-11-26T23:13:34.000
+Damaged Tree,Branch or Limb Has Fallen Down,Blocking Sidewalk,Street,Public Safety,Pedestrian Safety,2026-11-26T23:47:35.000
+Damaged Tree,Branch or Limb Has Fallen Down,Blocking Street,Park,Public Safety,Pedestrian Safety,2026-11-26T21:00:34.000
+Damaged Tree,Branch or Limb Has Fallen Down,Blocking Street,Street,Public Safety,Pedestrian Safety,2026-11-27T01:03:22.000
+Damaged Tree,Branch or Limb Has Fallen Down,Fell on House,Street,Public Safety,Pedestrian Safety,2026-11-26T23:43:36.000
+Damaged Tree,Branch or Limb Has Fallen Down,Fell on Vehicle,Street,Public Safety,Pedestrian Safety,2026-11-26T22:57:42.000
+Damaged Tree,Branch or Limb Has Fallen Down,Other (Please Specify),Street,Public Safety,Pedestrian Safety,2026-11-26T22:17:23.000
+Damaged Tree,Branch or Limb Has Fallen Down,Park (High Traffic Area),Park,Public Safety,Pedestrian Safety,2026-11-26T23:26:50.000
+Damaged Tree,Branch or Limb Has Fallen Down,Park (High Traffic Area),Street,Public Safety,Pedestrian Safety,2026-11-23T09:44:44.000
+Damaged Tree,Branch or Limb Has Fallen Down,Park (Low Traffic Area),Park,Public Safety,Pedestrian Safety,2026-11-26T16:47:00.000
+Damaged Tree,Branch or Limb Has Fallen Down,Park (Low Traffic Area),Street,Public Safety,Pedestrian Safety,2026-11-21T13:33:15.000
+Damaged Tree,Entire Tree Has Fallen Down,Blocking Driveway,Street,Public Safety,Pedestrian Safety,2026-11-26T23:51:06.000
+Damaged Tree,Entire Tree Has Fallen Down,Blocking Sidewalk,Park,Public Safety,Pedestrian Safety,2026-11-26T13:34:21.000
+Damaged Tree,Entire Tree Has Fallen Down,Blocking Sidewalk,Street,Public Safety,Pedestrian Safety,2026-11-27T01:57:17.000
+Damaged Tree,Entire Tree Has Fallen Down,Blocking Street,Park,Public Safety,Pedestrian Safety,2026-11-26T22:09:07.000
+Damaged Tree,Entire Tree Has Fallen Down,Blocking Street,Street,Public Safety,Pedestrian Safety,2026-11-27T00:57:09.000
+Damaged Tree,Entire Tree Has Fallen Down,Fell on House,Street,Public Safety,Pedestrian Safety,2026-11-26T23:32:06.000
+Damaged Tree,Entire Tree Has Fallen Down,Fell on Vehicle,Street,Public Safety,Pedestrian Safety,2026-11-27T00:01:01.000
+Damaged Tree,Entire Tree Has Fallen Down,Other (Please Specify),Park,Public Safety,Pedestrian Safety,2026-11-13T07:49:49.000
+Damaged Tree,Entire Tree Has Fallen Down,Other (Please Specify),Street,Public Safety,Pedestrian Safety,2026-11-26T23:46:00.000
+Damaged Tree,Entire Tree Has Fallen Down,Park (High Traffic Area),Park,Public Safety,Pedestrian Safety,2026-11-26T23:43:49.000
+Damaged Tree,Entire Tree Has Fallen Down,Park (Low Traffic Area),Street,Public Safety,Pedestrian Safety,2026-11-25T15:40:19.000
+Damaged Tree,Entire Tree Has Fallen Down,Recreation Area,Street,Public Safety,Pedestrian Safety,2026-11-26T22:27:24.000
+Damaged Tree,Tree Alive - in Poor Condition,Cracked,Street,Public Safety,Pedestrian Safety,2026-11-26T21:33:07.000
+Damaged Tree,Tree Alive - in Poor Condition,Hollow,Park,Public Safety,Pedestrian Safety,2026-11-14T12:42:04.000
+Damaged Tree,Tree Alive - in Poor Condition,Hollow,Street,Public Safety,Pedestrian Safety,2026-11-26T20:52:16.000
+Damaged Tree,Tree Leaning/Uprooted,Leaning,Park,Public Safety,Pedestrian Safety,2026-11-23T11:52:00.000
+Damaged Tree,Tree Leaning/Uprooted,Leaning,Street,Public Safety,Pedestrian Safety,2026-11-27T00:35:45.000
+Damaged Tree,Tree Leaning/Uprooted,Uprooted,Street,Public Safety,Pedestrian Safety,2026-11-26T21:44:50.000
+Damaged Tree,Tree Trunk Split,N/A,Street,Public Safety,Pedestrian Safety,2026-11-26T21:51:51.000
+Building/Use,Illegal Conversion Of Residential Building/Space,,,Roads and Infrastructure,Illegal Construction,2026-11-26T20:27:42.000
+Building/Use,Illegal. Commercial Use In Resident Zone,,,Roads and Infrastructure,Illegal Construction,2026-11-26T18:45:20.000
+Building/Use,No Certificate Of Occupancy/Illegal/Contrary To CO,,,Roads and Infrastructure,Illegal Construction,2026-11-26T14:54:51.000
+Building/Use,SRO - Illegal Work/No Permit/Change In Occupancy/Use,,,Roads and Infrastructure,Illegal Construction,2026-11-26T10:13:23.000
+Building/Use,Zoning - Non-Conforming/Illegal Vehicle Storage,,,Roads and Infrastructure,Illegal Construction,2026-11-26T13:47:22.000
+Street Condition,Pothole,,,Roads and Infrastructure,Pothole,2026-11-27T01:41:03.000
+Sidewalk Condition,Blocked - ATM,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-24T14:34:48.000
+Sidewalk Condition,Blocked - Construction,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T20:03:27.000
+Sidewalk Condition,Broken Sidewalk,1-3 Residential Units,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T21:46:05.000
+Sidewalk Condition,Broken Sidewalk,4 + Residential Units/Commercial,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T15:09:38.000
+Sidewalk Condition,Broken Sidewalk,City-Owned,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T12:34:59.000
+Sidewalk Condition,Broken Sidewalk,Other,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-23T15:52:38.000
+Sidewalk Condition,Broken Sidewalk,Overpass/Traffic Median,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T22:50:05.000
+Sidewalk Condition,Canopy Complaint,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-23T08:57:05.000
+Sidewalk Condition,Cellar Door Defective,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-19T06:02:19.000
+Sidewalk Condition,Cellar Door Open/Unprotected,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T09:24:02.000
+Sidewalk Condition,Defective Hardware,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T21:48:05.000
+Sidewalk Condition,Dumpster - Construction Waste,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T10:41:55.000
+Sidewalk Condition,Metal Protruding - Sign Stump,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T09:56:44.000
+Sidewalk Condition,Sidewalk Collapsed,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T13:45:27.000
+Sidewalk Condition,Sidewalk Grating - Defective,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T08:59:53.000
+Sidewalk Condition,Sidewalk Grating - Missing,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-24T10:03:48.000
+Sidewalk Condition,Sidewalk Staircase,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-20T21:17:13.000
+Sidewalk Condition,Sidewalk Violation,Dismiss Violation City Fixed,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-24T21:20:44.000
+Sidewalk Condition,Sidewalk Violation,Dismiss Violation Owner Fixed,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-26T11:53:47.000
+Sidewalk Condition,Sidewalk Violation,Request City Repair,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-17T14:17:02.000
+Sidewalk Condition,Sidewalk Violation,Sidewalk Re-inspection Request,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T12:24:19.000
+Sidewalk Condition,Sidewalk Violation,Sidewalk Violation Inquiry,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-25T23:47:29.000
+Sidewalk Condition,Unsafe Worksite,N/A,Sidewalk,Roads and Infrastructure,Road Damage,2026-11-18T09:47:26.000
+Street Condition,Blocked - Construction,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-26T19:52:29.000
+Street Condition,Cave-in,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-27T00:54:13.000
+Street Condition,Crash Cushion Defect,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-26T14:20:44.000
+Street Condition,Defective Hardware,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-27T00:46:35.000
+Street Condition,Dumpster - Construction Waste,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-25T16:28:12.000
+Street Condition,Failed Street Repair,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-27T00:34:45.000
+Street Condition,Guard Rail - Street,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-24T09:52:01.000
+Street Condition,Line/Marking - After Repaving,N/A,Bike Lane,Roads and Infrastructure,Road Damage,2026-11-25T11:19:37.000
+Street Condition,Line/Marking - After Repaving,N/A,Crosswalk,Roads and Infrastructure,Road Damage,2026-11-23T22:39:28.000
+Street Condition,Line/Marking - After Repaving,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-25T08:32:07.000
+Street Condition,Line/Marking - After Repaving,N/A,Vehicle Lane,Roads and Infrastructure,Road Damage,2026-11-24T19:20:31.000
+Street Condition,Line/Marking - Faded,N/A,Crosswalk,Roads and Infrastructure,Road Damage,2026-11-25T09:47:50.000
+Street Condition,Line/Marking - Faded,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-26T22:57:07.000
+Street Condition,Line/Marking - Faded,N/A,Vehicle Lane,Roads and Infrastructure,Road Damage,2026-11-25T08:57:16.000
+Street Condition,Plate Condition - Noisy,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-26T10:31:20.000
+Street Condition,Plate Condition - Shifted,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-25T13:42:45.000
+Street Condition,"Rough, Pitted or Cracked Roads",N/A,Street,Roads and Infrastructure,Road Damage,2026-11-26T13:38:52.000
+Street Condition,Unsafe Worksite,N/A,Street,Roads and Infrastructure,Road Damage,2026-11-27T00:09:11.000
+Street Condition,Wear & Tear,,,Roads and Infrastructure,Road Damage,2026-11-25T13:30:33.000
+Sewer,Catch Basin Clogged/Flooding (Use Comments) (SC),SC,,Sanitation,Drainage,2026-07-28T12:16:00.000
+Sewer,Catch Basin Grating Missing (SA4),SA4,,Sanitation,Drainage,2026-07-27T08:54:00.000
+Sewer,Catch Basin Search (SC2),SC2,,Sanitation,Drainage,2026-07-28T13:57:00.000
+Sewer,Catch Basin Sunken/Damaged/Raised (SC1),SC1,,Sanitation,Drainage,2026-07-28T19:55:00.000
+Sewer,Culvert Blocked/Needs Cleaning (SE),SE,,Sanitation,Drainage,2026-07-28T11:06:00.000
+Sewer,Defective/Missing Curb Piece (SC4),SC4,,Sanitation,Drainage,2026-07-27T15:28:00.000
+Sewer,Highway Flooding (SH),SH,,Sanitation,Drainage,2026-07-21T17:56:00.000
+Sewer,Manhole Cover Missing (Emergency) (SA3),SA3,,Sanitation,Drainage,2026-07-28T14:32:00.000
+Sewer,Manhole Overflow (Use Comments) (SA1),SA1,,Sanitation,Drainage,2026-07-29T11:29:00.000
+Sewer,RAIN GARDEN DEBRIS (GIRGD),GIRGD,,Sanitation,Drainage,2026-07-29T16:48:00.000
+Sewer,RAIN GARDEN PLANTING (GIRGP),GIRGP,,Sanitation,Drainage,2026-07-27T18:00:00.000
+Sewer,Sewer Backup (Use Comments) (SA),SA,,Sanitation,Drainage,2026-07-29T10:44:00.000
+Sewer,Sewer Odor (SA2),SA2,,Sanitation,Drainage,2026-07-27T20:50:00.000
+Sewer,Street Flooding (SJ),SJ,,Sanitation,Drainage,2026-07-28T21:45:00.000
+Dirty Condition,Broken Glass,N/A,Sidewalk,Sanitation,Garbage & Waste,2026-11-24T12:51:53.000
+Dirty Condition,Broken Glass,N/A,Street,Sanitation,Garbage & Waste,2026-11-24T16:52:37.000
+Dirty Condition,Broken Glass,N/A,Yard,Sanitation,Garbage & Waste,2026-11-23T08:28:49.000
+Dirty Condition,Debris from Car Accident,N/A,Street,Sanitation,Garbage & Waste,2026-11-25T22:39:51.000
+Dirty Condition,Dirt or Gravel,N/A,Street,Sanitation,Garbage & Waste,2026-11-25T14:41:07.000
+Dirty Condition,Dirt or Gravel,N/A,Traffic Island or Median,Sanitation,Garbage & Waste,2026-11-25T13:09:47.000
+Dirty Condition,Dog Waste,Not Cleaned by Property Owner,Sidewalk,Sanitation,Garbage & Waste,2026-11-26T22:12:38.000
+Dirty Condition,Dog Waste,Not Cleaned by Property Owner,Street,Sanitation,Garbage & Waste,2026-11-26T23:48:46.000
+Dirty Condition,Dog Waste,Not Picked Up by Dog Owner,Sidewalk,Sanitation,Garbage & Waste,2026-11-25T22:38:44.000
+Dirty Condition,Syringes,N/A,Sidewalk,Sanitation,Garbage & Waste,2026-11-25T11:30:26.000
+Dirty Condition,Trash,Littering,Alley,Sanitation,Garbage & Waste,2026-11-26T01:30:59.000
+Dirty Condition,Trash,Littering,Gutter,Sanitation,Garbage & Waste,2026-11-26T13:28:14.000
+Dirty Condition,Trash,Littering,Sidewalk,Sanitation,Garbage & Waste,2026-11-27T00:05:18.000
+Dirty Condition,Trash,Littering,Street,Sanitation,Garbage & Waste,2026-11-25T18:47:13.000
+Dirty Condition,Trash,Littering,Traffic Island or Median,Sanitation,Garbage & Waste,2026-11-24T08:46:13.000
+Dirty Condition,Trash,Littering,Yard,Sanitation,Garbage & Waste,2026-11-24T09:28:33.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Alley,Sanitation,Garbage & Waste,2026-11-25T22:22:53.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Gutter,Sanitation,Garbage & Waste,2026-11-24T07:56:07.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Sidewalk,Sanitation,Garbage & Waste,2026-11-27T01:27:45.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Street,Sanitation,Garbage & Waste,2026-11-26T10:49:24.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Traffic Island or Median,Sanitation,Garbage & Waste,2026-11-24T08:23:48.000
+Dirty Condition,Trash,Not Cleaned by Property Owner,Yard,Sanitation,Garbage & Waste,2026-11-26T23:10:24.000
+Missed Collection,Bulky Recycling,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T08:24:06.000
+Missed Collection,Bulky Trash,,Street,Sanitation,Garbage & Waste,2026-11-25T14:41:27.000
+Missed Collection,Bulky Trash,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T10:53:50.000
+Missed Collection,Compost,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T17:07:06.000
+Missed Collection,Recycling - Metal/Glass/Rigid Plastic,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T12:13:23.000
+Missed Collection,Recycling - Paper,,Street,Sanitation,Garbage & Waste,2026-11-24T11:07:25.000
+Missed Collection,Recycling - Paper,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T23:32:16.000
+Missed Collection,Recycling - Paper/Metal/Glass/Rigid Plastic,N/A,Street,Sanitation,Garbage & Waste,2026-11-26T14:56:10.000
+Missed Collection,Trash,N/A,Street,Sanitation,Garbage & Waste,2026-11-27T00:02:18.000
+Missed Collection,Trash and Bulky Trash,N/A,Street,Sanitation,Garbage & Waste,2026-11-25T14:33:42.000
+Sanitation Condition,12 Dead Animals,,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T18:46:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102152,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T20:13:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102156,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T21:39:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102157,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T21:44:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102158,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T22:35:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102159,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T23:12:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102161,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T09:06:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102162,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T10:57:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102163,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T11:20:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102164,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T13:09:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102166,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T16:29:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102167,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T16:59:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102169,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T18:17:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102171,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T06:17:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102172,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T07:47:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102173,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T09:34:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102174,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T10:18:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102176,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T10:36:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102178,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T11:47:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102181,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T15:39:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102182,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T16:45:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102183,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T17:33:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102184,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T17:56:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102185,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T18:04:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102186,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T18:55:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102187,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T20:16:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102188,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T08:39:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102190,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T11:58:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102192,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T12:12:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102193,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T13:25:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102195,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T15:40:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102198,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T18:44:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102199,Sidewalk,Sanitation,Garbage & Waste,2021-09-17T20:05:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102202,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T01:31:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102203,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T07:29:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102204,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T07:37:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102209,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T12:10:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102212,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T12:55:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102215,Sidewalk,Sanitation,Garbage & Waste,2021-09-19T11:46:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102219,Sidewalk,Sanitation,Garbage & Waste,2021-09-19T17:48:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102224,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T07:02:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102225,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T08:03:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102226,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T11:25:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102228,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T12:53:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102229,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T17:20:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102230,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T17:46:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102231,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T08:34:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102241,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T11:55:00.000
+Sanitation Condition,12 Dead Animals,2021DA0102248,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T17:53:00.000
+Sanitation Condition,12 Dead Animals,2021LB0100960,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T10:36:00.000
+Sanitation Condition,12 Dead Animals,_2021DA0102153,Sidewalk,Sanitation,Garbage & Waste,2021-09-14T20:27:00.000
+Sanitation Condition,12 Dead Animals,_2021DA0102177,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T11:19:00.000
+Sanitation Condition,12 Dead Animals,_2021DA0102213,Sidewalk,Sanitation,Garbage & Waste,2021-09-18T18:29:00.000
+Sanitation Condition,12 Dead Animals,_2021DA0102247,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T17:15:00.000
+Sanitation Condition,12 Dead Animals,__2021DA0102244,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T15:58:00.000
+Sanitation Condition,12P Dead Deer,,Pvt Residnt Proprty,Sanitation,Garbage & Waste,2021-09-20T15:47:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,,Street,Sanitation,Garbage & Waste,2021-09-21T19:49:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102035,Street,Sanitation,Garbage & Waste,2021-09-15T00:16:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102037,Street,Sanitation,Garbage & Waste,2021-09-15T08:11:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102040,Street,Sanitation,Garbage & Waste,2021-09-15T08:25:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102053,Street,Sanitation,Garbage & Waste,2021-09-16T13:00:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102074,Street,Sanitation,Garbage & Waste,2021-09-19T22:28:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,2021OB0102087,Street,Sanitation,Garbage & Waste,2021-09-21T14:42:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,CONTRACTOR MIGHT REMOVE,Street,Sanitation,Garbage & Waste,2021-09-14T20:26:00.000
+Sanitation Condition,15 Street Cond/Dump-Out/Drop-Off,_2021OB0102089,Street,Sanitation,Garbage & Waste,2021-09-21T17:22:00.000
+Sanitation Condition,15N Needle/Syringe on Street/Sidewalk,,Street,Sanitation,Garbage & Waste,2021-09-21T21:21:00.000
+Sanitation Condition,15R Street Cond/Ref.W Door,,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T11:48:00.000
+Sanitation Condition,22 Weeds,,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T19:37:00.000
+Sanitation Condition,22 Weeds,2021OB0102058,Sidewalk,Sanitation,Garbage & Waste,2021-09-16T15:02:00.000
+Sanitation Condition,22 Weeds,2021WR0100260,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T09:29:00.000
+Sanitation Condition,22 Weeds,2021WR0100261,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T09:58:00.000
+Sanitation Condition,22 Weeds,2021WR0100262,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T15:20:00.000
+Sanitation Condition,22 Weeds,2021WR0100263,Sidewalk,Sanitation,Garbage & Waste,2021-09-15T19:53:00.000
+Sanitation Condition,22 Weeds,2021WR0100267,Sidewalk,Sanitation,Garbage & Waste,2021-09-20T14:28:00.000
+Sanitation Condition,22 Weeds,2021WR0100269,Sidewalk,Sanitation,Garbage & Waste,2021-09-21T07:20:00.000
+Illegal Parking,Blocked Bike Lane,,Street/Sidewalk,Transportation,Pedestrian Crossing,2026-11-26T19:24:21.000
+Illegal Parking,Blocked Crosswalk,,Street/Sidewalk,Transportation,Pedestrian Crossing,2026-11-27T01:48:37.000
+Illegal Parking,Blocked Sidewalk,,Street/Sidewalk,Transportation,Pedestrian Crossing,2026-11-27T02:06:25.000
+Illegal Parking,Parking Permit Improper Use,Parked On Sidewalk,Street/Sidewalk,Transportation,Pedestrian Crossing,2026-11-26T13:30:11.000
+Sidewalk Condition,Pedestrian Ramp Defective,N/A,Sidewalk,Transportation,Pedestrian Crossing,2026-11-26T08:54:46.000
+Traffic Signal Condition,LED Pedestrian Unit,Obscured (Dirty),,Transportation,Pedestrian Crossing,2026-11-24T13:49:00.000
+Traffic Signal Condition,LED Pedestrian Unit,Operating Improperly,,Transportation,Pedestrian Crossing,2026-11-25T12:51:00.000
+Traffic Signal Condition,LED Pedestrian Unit,Out,,Transportation,Pedestrian Crossing,2026-11-24T10:20:00.000
+Traffic Signal Condition,Ped Lamp,Out,,Transportation,Pedestrian Crossing,2026-11-25T14:54:00.000
+Traffic Signal Condition,Ped Multiple Lamps,Operating Improperly,,Transportation,Pedestrian Crossing,2026-11-26T02:08:00.000
+Traffic Signal Condition,Pedestrian Signal,Damaged,,Transportation,Pedestrian Crossing,2026-11-25T15:52:00.000
+Traffic Signal Condition,Pedestrian Signal,Down,,Transportation,Pedestrian Crossing,2026-11-26T12:38:00.000
+Traffic Signal Condition,Pedestrian Signal,Emergency (All Out),,Transportation,Pedestrian Crossing,2026-11-23T13:41:00.000
+Traffic Signal Condition,Pedestrian Signal,Hanging,,Transportation,Pedestrian Crossing,2026-11-26T15:44:00.000
+Traffic Signal Condition,Pedestrian Signal,Missing,,Transportation,Pedestrian Crossing,2026-11-26T20:31:00.000
+Traffic Signal Condition,Pedestrian Signal,Obscured (Dirty),,Transportation,Pedestrian Crossing,2026-11-25T18:38:00.000
+Traffic Signal Condition,Pedestrian Signal,Turned,,Transportation,Pedestrian Crossing,2026-11-26T00:10:00.000
+Traffic Signal Condition,APS,Damaged,,Transportation,Traffic Signal,2026-11-24T15:11:00.000
+Traffic Signal Condition,APS,Down,,Transportation,Traffic Signal,2026-11-26T06:46:00.000
+Traffic Signal Condition,APS,Hanging,,Transportation,Traffic Signal,2026-11-26T12:28:00.000
+Traffic Signal Condition,APS,Loose,,Transportation,Traffic Signal,2026-11-25T14:24:00.000
+Traffic Signal Condition,APS,Missing,,Transportation,Traffic Signal,2026-11-25T10:00:00.000
+Traffic Signal Condition,APS,Operating Improperly,,Transportation,Traffic Signal,2026-11-25T15:35:00.000
+Traffic Signal Condition,APS,Out,,Transportation,Traffic Signal,2026-11-25T10:03:00.000
+Traffic Signal Condition,Base Door,Open,,Transportation,Traffic Signal,2026-11-26T09:33:00.000
+Traffic Signal Condition,Bike Signal,Damaged,,Transportation,Traffic Signal,2026-11-24T20:05:00.000
+Traffic Signal Condition,Bike Signal,Out,,Transportation,Traffic Signal,2026-11-25T03:00:00.000
+Traffic Signal Condition,Cable,Operating Improperly,,Transportation,Traffic Signal,2026-11-25T20:33:00.000
+Traffic Signal Condition,Controller,Allout,,Transportation,Traffic Signal,2026-11-27T00:48:00.000
+Traffic Signal Condition,Controller,Down,,Transportation,Traffic Signal,2026-11-26T12:05:00.000
+Traffic Signal Condition,Controller,Emergency (All Out),,Transportation,Traffic Signal,2026-11-26T10:56:00.000
+Traffic Signal Condition,Controller,Hanging,,Transportation,Traffic Signal,2026-11-26T23:01:00.000
+Traffic Signal Condition,Controller,Obscured (Dirty),,Transportation,Traffic Signal,2026-11-22T21:00:00.000
+Traffic Signal Condition,Controller,Operating Improperly,,Transportation,Traffic Signal,2026-11-27T00:45:00.000
+Traffic Signal Condition,Controller,Turned,,Transportation,Traffic Signal,2026-11-23T10:29:00.000
+Traffic Signal Condition,Controller Cabinet,Obscured (Dirty),,Transportation,Traffic Signal,2026-11-25T11:51:00.000
+Traffic Signal Condition,Controller Cabinet,Open,,Transportation,Traffic Signal,2026-11-23T17:56:00.000
+Traffic Signal Condition,Controller Flasher,Emergency (All Out),,Transportation,Traffic Signal,2026-11-24T12:25:00.000
+Traffic Signal Condition,Door,Operating Improperly,,Transportation,Traffic Signal,2026-11-24T16:15:00.000
+Traffic Signal Condition,Enclosure Cap,Missing,,Transportation,Traffic Signal,2026-11-23T14:48:00.000
+Traffic Signal Condition,In Conduit,Damaged,,Transportation,Traffic Signal,2026-11-23T15:18:00.000
+Traffic Signal Condition,Junction Box,Damaged,,Transportation,Traffic Signal,2026-11-23T14:48:00.000
+Traffic Signal Condition,Lane Station,Operating Improperly,,Transportation,Traffic Signal,2026-11-26T19:39:00.000
+Traffic Signal Condition,On Messenger,Remove,,Transportation,Traffic Signal,2026-11-24T10:20:00.000
+Traffic Signal Condition,Post,Damaged,,Transportation,Traffic Signal,2026-11-23T14:49:00.000
+Traffic Signal Condition,Post,Down,,Transportation,Traffic Signal,2026-11-26T21:35:00.000
+Traffic Signal Condition,Post,Leaning,,Transportation,Traffic Signal,2026-11-24T08:08:00.000
+Traffic Signal Condition,Post,Loose,,Transportation,Traffic Signal,2026-11-24T14:24:00.000
+Traffic Signal Condition,Push Button,Operating Improperly,,Transportation,Traffic Signal,2026-11-27T00:14:00.000
+Traffic Signal Condition,Speed Board Sign,Out,,Transportation,Traffic Signal,2026-11-24T14:33:00.000
+Traffic Signal Condition,Street Light Feed,Damaged,,Transportation,Traffic Signal,2026-11-21T17:51:00.000
+Traffic Signal Condition,Street Light Feed,Out,,Transportation,Traffic Signal,2026-11-23T09:26:00.000
+Traffic Signal Condition,Support Bracket,Damaged,,Transportation,Traffic Signal,2026-11-25T12:53:00.000
+Traffic Signal Condition,Telco Connection Blk,Operating Improperly,,Transportation,Traffic Signal,2026-11-24T11:05:00.000
+Traffic Signal Condition,Temporary,Remove,,Transportation,Traffic Signal,2026-11-25T16:27:00.000
+Traffic Signal Condition,Traffic Camera,Allout,,Transportation,Traffic Signal,2026-11-24T07:51:00.000
+Traffic Signal Condition,Underground,Need Utility Verify,,Transportation,Traffic Signal,2026-11-25T22:10:00.000
+Traffic Signal Condition,Veh Sgnl Mult Lamps,Out,,Transportation,Traffic Signal,2026-11-26T22:27:00.000
+Traffic Signal Condition,Veh Signal Head,Hanging,,Transportation,Traffic Signal,2026-11-26T23:08:00.000
+Traffic Signal Condition,Veh Signal Head,Missing,,Transportation,Traffic Signal,2026-11-25T16:31:00.000
+Traffic Signal Condition,Veh Signal Head,Obscured (Dirty),,Transportation,Traffic Signal,2026-11-24T07:29:00.000
+Traffic Signal Condition,Veh Signal Head,Turned,,Transportation,Traffic Signal,2026-11-25T19:07:00.000
+Traffic Signal Condition,Veh Signal Lamp,Allout,,Transportation,Traffic Signal,2026-11-26T21:50:00.000
+Traffic Signal Condition,Veh Signal Lamp,Operating Improperly,,Transportation,Traffic Signal,2026-11-26T19:03:00.000
+Traffic Signal Condition,Veh Signal Lamp,Out,,Transportation,Traffic Signal,2026-11-27T00:23:00.000
+Traffic Signal Condition,Veh Signal Lamp,Turned,,Transportation,Traffic Signal,2026-11-25T11:47:00.000
+Traffic Signal Condition,Veh Signal Lens,Out,,Transportation,Traffic Signal,2026-11-25T15:17:00.000
+Traffic Signal Condition,Veh Signal Sec Door,Damaged,,Transportation,Traffic Signal,2026-11-23T14:01:00.000
+Traffic Signal Condition,Veh Signal Sec Door,Turned,,Transportation,Traffic Signal,2026-11-23T14:02:00.000
+Traffic Signal Condition,Veh Signal Visor,Damaged,,Transportation,Traffic Signal,2026-11-23T14:36:00.000
+Traffic Signal Condition,Veh Signal Visor,Missing,,Transportation,Traffic Signal,2026-11-24T14:26:00.000
+Traffic Signal Condition,Vehicle Signal,Allout,,Transportation,Traffic Signal,2026-11-26T21:54:00.000
+Traffic Signal Condition,Vehicle Signal,Down,,Transportation,Traffic Signal,2026-11-26T20:48:00.000
+Traffic Signal Condition,Vehicle Signal,Hanging,,Transportation,Traffic Signal,2026-11-26T20:28:00.000
+Traffic Signal Condition,Vehicle Signal,Loose,,Transportation,Traffic Signal,2026-11-26T16:00:00.000
+Traffic Signal Condition,Vehicle Signal,Operating Improperly,,Transportation,Traffic Signal,2026-11-26T21:34:00.000
+Traffic Signal Condition,Vehicle Signal,Turned,,Transportation,Traffic Signal,2026-11-26T19:04:00.000
+Water System,Dirty Water (WE),WE,,Water Supply,Contaminated Water,2026-07-28T12:35:00.000
+PLUMBING,BASIN/SINK,BASIN BROKEN/LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:10:38.000
+PLUMBING,BASIN/SINK,DRAIN PIPE BLOCKED OR BROKEN,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T21:50:34.000
+PLUMBING,BASIN/SINK,FAUCET BROKEN/MISSING/LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T22:54:30.000
+PLUMBING,BASIN/SINK,PIPE LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T21:34:01.000
+PLUMBING,BATHTUB/SHOWER,FAUCET BROKEN/MISSING/LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T22:54:38.000
+PLUMBING,BATHTUB/SHOWER,LEAKING INTO OTHER APARTMENT,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T21:59:59.000
+PLUMBING,RADIATOR,CRACKED OR LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T22:36:03.000
+PLUMBING,STEAM PIPE/RISER,CRACKED OR BROKEN,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T18:02:47.000
+PLUMBING,STEAM PIPE/RISER,LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T21:43:01.000
+PLUMBING,TOILET,BOWL CRACKED OR LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T14:29:36.000
+PLUMBING,TOILET,TANK CRACKED OR LEAKING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:01:09.000
+WATER LEAK,DAMP SPOT,FROM WALL OR CEILING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:33:19.000
+WATER LEAK,HEAVY FLOW,AT WALL OR CEILING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:45:54.000
+WATER LEAK,HEAVY FLOW,FROM WALL OR CEILING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:07:32.000
+WATER LEAK,SLOW LEAK,AT WALL OR CEILING,RESIDENTIAL BUILDING,Water Supply,Water Leakage,2026-11-26T23:58:57.000
+Water System,Hydrant Leaking (WC1),WC1,,Water Supply,Water Leakage,2026-07-28T19:12:00.000
+Water System,Hydrant Running (WC3),WC3,,Water Supply,Water Leakage,2026-07-28T23:40:00.000
+Water System,Hydrant Running Full (WA4),WA4,,Water Supply,Water Leakage,2026-07-28T20:28:00.000
+Water System,Leak (Use Comments) (WA2),WA2,,Water Supply,Water Leakage,2026-07-29T09:24:00.000
+Water System,Possible Water Main Break (Use Comments) (WA1),WA1,,Water Supply,Water Leakage,2026-07-28T20:20:00.000
+PLUMBING,BASIN/SINK,NO WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-25T22:05:06.000
+PLUMBING,BATHTUB/SHOWER,NO WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T08:58:46.000
+PLUMBING,TOILET,NO WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T22:54:30.000
+PLUMBING,WATER SUPPLY,LOW WATER PRESSURE,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T21:50:34.000
+PLUMBING,WATER SUPPLY,NO COLD WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T19:24:53.000
+PLUMBING,WATER SUPPLY,NO HOT WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T16:26:12.000
+PLUMBING,WATER SUPPLY,NO WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T23:11:01.000
+PLUMBING,WATER SUPPLY,SCALDING HOT WATER,RESIDENTIAL BUILDING,Water Supply,Water Supply,2026-11-26T15:34:42.000
+Water System,Excessive Water In Basement (WEFB),WEFB,,Water Supply,Water Supply,2026-07-27T02:46:00.000
+Water System,High Water Pressure (WHP),WHP,,Water Supply,Water Supply,2026-07-25T21:20:00.000
+Water System,Hyd Valve Box Cover Missing (WV2),WV2,,Water Supply,Water Supply,2026-07-25T21:49:00.000
+Water System,Hydrant Defective (WC2),WC2,,Water Supply,Water Supply,2026-07-28T19:00:00.000
+Water System,Hydrant Knocked Over/Missing (WC),WC,,Water Supply,Water Supply,2026-07-28T11:45:00.000
+Water System,LOW WATER PRESSURE - WLWP,WLWP,,Water Supply,Water Supply,2026-07-27T15:25:00.000
+Water System,No Water (WNW),WNW,,Water Supply,Water Supply,2026-07-28T14:51:00.000
+Water System,installation of hydrant side post (WHFP),WHFP,,Water Supply,Water Supply,2026-07-27T11:18:00.000

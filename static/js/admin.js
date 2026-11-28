@@ -107,12 +107,11 @@
       <div class="hotspot-row">
         <div>
           <div class="cat">${escapeHTML(user.name)} · ${escapeHTML(user.politician_title || 'Politician')}</div>
-          <div class="coords">${escapeHTML(user.email)} · ${escapeHTML(user.politician_constituency || 'No constituency')}
-            · official email ${user.official_email_verified ? 'verified' : 'not verified'}</div>
+          <div class="coords">${escapeHTML(user.email)} · ${escapeHTML(user.politician_constituency || 'No constituency')}</div>
         </div>
         <div style="display:flex;gap:8px;">
           <button class="btn btn-ghost btn-sm" data-politician-reject="${user.id}">Reject</button>
-          <button class="btn btn-primary btn-sm" data-politician-approve="${user.id}" ${user.official_email_verified ? '' : 'disabled'}>Approve</button>
+          <button class="btn btn-primary btn-sm" data-politician-approve="${user.id}">Approve</button>
         </div>
       </div>`).join('');
     $('politician-review-list').querySelectorAll('[data-politician-approve],[data-politician-reject]')

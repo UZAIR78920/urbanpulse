@@ -8,7 +8,6 @@ import re
 import sys
 import tempfile
 import unittest
-from unittest.mock import patch
 from werkzeug.datastructures import MultiDict
 
 # use a throw-away database, never the real one
@@ -82,7 +81,8 @@ class IntelligenceTests(unittest.TestCase):
         self.assertEqual(prediction["category_group"], "Sanitation")
         self.assertEqual(prediction["subcategory"], "Drainage")
         self.assertIn(prediction["severity"], ai.SEVERITY_POINTS)
-        self.assertEqual(prediction["model_status"], "provisional")
+        self.assertEqual(prediction["model_status"], "real_data")
+        self.assertIn("NYC Open Data", prediction["model_dataset"])
 
     def test_duplicate_detection_requires_nearby_text_match(self):
         existing = [{
@@ -173,8 +173,8 @@ class WorkflowTests(unittest.TestCase):
         conn = database.get_db()
         cur = conn.execute(
             """INSERT INTO users (name,email,password_hash,role,portal_role,politician_status,
-                                  official_email_verified,created_at)
-               VALUES (?,?,?,'citizen','politician','approved',1,?)""",
+                                  created_at)
+               VALUES (?,?,?,'citizen','politician','approved',?)""",
             ("Test Politician", "politician@test.gov", generate_password_hash("password1"), database.now_iso()),
         )
         conn.commit()
@@ -202,11 +202,20 @@ class WorkflowTests(unittest.TestCase):
                                              "account_type": "admin", "admin_code": "guess", "csrf_token": b.token})
         self.assertEqual(r.status_code, 403)
 
-    def test_own_report_cannot_be_upvoted_but_others_can(self):
+    def test_citizen_can_upvote_and_downvote_own_report(self):
         issue = self.report()
-        self.assertEqual(self.citizen.call("POST", f"/api/issues/{issue['id']}/upvote")[0], 403)
-        code, body = self.ravi.call("POST", f"/api/issues/{issue['id']}/upvote")
-        self.assertEqual((code, body["upvotes"]), (200, 1))
+        url = f"/api/issues/{issue['id']}/vote"
+
+        code, body = self.citizen.call("POST", url, json={"direction": "up"})
+        self.assertEqual((code, body["upvotes"], body["my_vote"]), (200, 1, 1))
+
+        code, body = self.citizen.call("POST", url, json={"direction": "down"})
+        self.assertEqual((code, body["upvotes"], body["downvotes"], body["my_vote"]),
+                         (200, 0, 1, -1))
+
+        code, body = self.citizen.call("POST", url, json={"direction": "none"})
+        self.assertEqual((code, body["upvotes"], body["downvotes"], body["my_vote"]),
+                         (200, 0, 0, 0))
 
     def test_votes_switch_direction_and_comments_and_follows_are_counted(self):
         issue = self.report()
@@ -225,6 +234,23 @@ class WorkflowTests(unittest.TestCase):
             "SELECT civic_xp FROM users WHERE email='worker@urbanpulse.gov'"
         ), 2)
 
+    def test_votes_preserve_existing_issue_upvote_totals(self):
+        issue_id = db_one(
+            "SELECT id FROM issues WHERE title=?",
+            "Open manhole cover near school gate",
+        )
+        self.assertEqual(db_one("SELECT upvotes FROM issues WHERE id=?", issue_id), 34)
+        url = f"/api/issues/{issue_id}/vote"
+
+        code, result = self.ravi.call("POST", url, json={"direction": "up"})
+        self.assertEqual((code, result["upvotes"], result["downvotes"]), (200, 35, 0))
+
+        code, result = self.ravi.call("POST", url, json={"direction": "down"})
+        self.assertEqual((code, result["upvotes"], result["downvotes"]), (200, 34, 1))
+
+        code, result = self.ravi.call("POST", url, json={"direction": "none"})
+        self.assertEqual((code, result["upvotes"], result["downvotes"]), (200, 34, 0))
+
     def test_issue_accepts_multiple_image_and_video_attachments(self):
         body = b"\x00\x00\x00\x18ftypisom\x00\x00\x00\x00isomiso2"
         data = MultiDict([
@@ -238,7 +264,7 @@ class WorkflowTests(unittest.TestCase):
         detail = self.citizen.call("GET", f"/api/issues/{issue['id']}")[1]
         self.assertEqual([item["type"] for item in detail["media"]], ["image", "video"])
 
-    def test_new_taxonomy_requires_review_confirmation(self):
+    def test_new_taxonomy_submission_does_not_require_confirmation_checkbox(self):
         data = {
             "title": "Drainage water overflowing",
             "description": "Water is coming out of the storm drain near the school.",
@@ -246,9 +272,8 @@ class WorkflowTests(unittest.TestCase):
             "category": "Drainage/Sewage", "severity": "High",
             "lat": "12.9698", "lng": "77.5910",
         }
-        self.assertEqual(self.citizen.call("POST", "/api/issues", data=data)[0], 400)
-        data["classification_reviewed"] = "1"
-        self.assertEqual(self.citizen.call("POST", "/api/issues", data=data)[0], 201)
+        code, result = self.citizen.call("POST", "/api/issues", data=data)
+        self.assertEqual(code, 201, result)
 
     def test_lifecycle_requires_assigned_politician_and_reporter_verification(self):
         politician, politician_id = self.new_politician()
@@ -275,7 +300,7 @@ class WorkflowTests(unittest.TestCase):
         self.assertGreaterEqual(profile["civic_xp"], 40)
         self.assertTrue(self.citizen.call("GET", f"/api/profiles/{politician_id}")[1]["followed_by_me"])
 
-    def test_admin_must_choose_verified_politician_at_assignment_stage(self):
+    def test_admin_must_choose_approved_politician_at_assignment_stage(self):
         _politician, politician_id = self.new_politician()
         issue = self.report("Streetlight")
         url = f"/api/issues/{issue['id']}/lifecycle"
@@ -299,27 +324,25 @@ class WorkflowTests(unittest.TestCase):
         self.assertIn("category_group", result)
         self.assertEqual(result["duplicate_candidates"][0]["title"], "Test issue")
 
-    def test_politician_account_needs_email_verification_and_admin_approval(self):
+    def test_politician_account_needs_only_admin_approval(self):
         browser = Browser()
-        sent = []
-        with patch.object(urbanpulse, "send_politician_verification",
-                          side_effect=lambda email, token: sent.append((email, token))):
-            response = browser.c.post("/auth/register", data={
-                "name": "Council Member", "email": "member@test.gov", "password": "password1",
-                "account_type": "politician", "csrf_token": browser.token,
-            })
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(sent), 1)
-        token = sent[0][1]
-        unverified = browser.c.post("/auth/login", data={
-            "email": "member@test.gov", "password": "password1", "csrf_token": browser.token,
+        response = browser.c.post("/auth/register", data={
+            "name": "Council Member", "email": "member@example.com", "password": "password1",
+            "account_type": "politician", "csrf_token": browser.token,
         })
-        self.assertEqual(unverified.status_code, 403)
-        browser.c.get(f"/auth/verify-politician/{token}")
-        politician_id = db_one("SELECT id FROM users WHERE email='member@test.gov'")
+        self.assertEqual(response.status_code, 200)
+        pending_login = browser.c.post("/auth/login", data={
+            "email": "member@example.com", "password": "password1", "csrf_token": browser.token,
+        })
+        self.assertEqual(pending_login.status_code, 403)
+        politician_id = db_one("SELECT id FROM users WHERE email='member@example.com'")
         self.assertEqual(self.admin.call("POST", f"/api/politicians/{politician_id}/review",
                                          json={"decision": "approve"})[0], 200)
         self.assertEqual(db_one("SELECT politician_status FROM users WHERE id=?", politician_id), "approved")
+        approved_login = browser.c.post("/auth/login", data={
+            "email": "member@example.com", "password": "password1", "csrf_token": browser.token,
+        })
+        self.assertEqual(approved_login.status_code, 302)
 
     def test_existing_and_new_portal_pages_render(self):
         self.assertEqual(self.citizen.c.get("/dashboard").status_code, 200)

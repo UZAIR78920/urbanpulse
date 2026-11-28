@@ -98,7 +98,7 @@
           <input id="reg-politician-title" type="text" name="politician_title" maxlength="100" placeholder="Councillor">
           <label for="reg-politician-constituency" style="margin-top:10px;">Constituency</label>
           <input id="reg-politician-constituency" type="text" name="politician_constituency" maxlength="120" placeholder="Ward or constituency">
-          <div class="hint">Requires an official government email, email verification, and administrator approval.</div>
+          <div class="hint">Politician accounts become active after administrator approval.</div>
         </div>
 
         <div class="field">
@@ -128,7 +128,7 @@
     citizen: 'Report issues in your neighbourhood and track how the city responds.',
     worker: 'Browse jobs matching your skill near you, claim one, and earn a reward when it is fixed.',
     admin: 'Oversee every issue, review flagged payouts and manage sponsor funding.',
-    politician: 'Verify your official email and wait for an administrator to approve your account.',
+    politician: 'Register as a politician and wait for an administrator to approve your account.',
   };
   function applyRole(role) {
     $('field-skill').style.display = role === 'worker' ? 'block' : 'none';

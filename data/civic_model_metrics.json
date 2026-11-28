@@ -1,0 +1,256 @@
+{
+  "dataset_name": "NYC 311 Service Requests from 2020 to Present",
+  "dataset_id": "erm2-nwe9",
+  "source_url": "https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2020-to-Present/erm2-nwe9",
+  "api_url": "https://data.cityofnewyork.us/resource/erm2-nwe9.json",
+  "retrieved_at_utc": "2026-11-28T14:22:49+00:00",
+  "source_fields": [
+    "complaint_type",
+    "descriptor",
+    "descriptor_2",
+    "location_type",
+    "created_date"
+  ],
+  "target_mapping": "Curated rules in scripts/train_civic_model.py; NYC service request labels mapped to CivicConnect categories.",
+  "excluded_fields": [
+    "unique_key",
+    "addresses",
+    "coordinates",
+    "resolution_description"
+  ],
+  "source_requests_per_problem": {
+    "Street Condition": 800,
+    "Sidewalk Condition": 800,
+    "Building/Use": 800,
+    "Water System": 800,
+    "PLUMBING": 800,
+    "WATER LEAK": 800,
+    "ELECTRIC": 800,
+    "Street Light Condition": 800,
+    "Sewer": 800,
+    "Sanitation Condition": 800,
+    "Dirty Condition": 800,
+    "Missed Collection": 800,
+    "Traffic Signal Condition": 800,
+    "Damaged Tree": 800,
+    "Bus Stop Shelter Placement": 800,
+    "Hazardous Materials": 800,
+    "Illegal Fireworks": 800,
+    "Illegal Parking": 800,
+    "Blocked Driveway": 800
+  },
+  "dropped_unmapped_or_generic_records": {
+    "PLUMBING": 249,
+    "Bus Stop Shelter Placement": 800,
+    "Illegal Fireworks": 800,
+    "Illegal Parking": 629,
+    "Blocked Driveway": 800
+  },
+  "unique_training_records": 389,
+  "category_distribution": {
+    "Electricity": 67,
+    "Public Safety": 39,
+    "Roads and Infrastructure": 48,
+    "Sanitation": 121,
+    "Transportation": 77,
+    "Water Supply": 37
+  },
+  "subcategory_distribution": {
+    "Electrical Hazard": 4,
+    "Power Outage": 4,
+    "Streetlight": 59,
+    "Environmental Hazard": 6,
+    "Pedestrian Safety": 33,
+    "Illegal Construction": 5,
+    "Pothole": 1,
+    "Road Damage": 42,
+    "Drainage": 14,
+    "Garbage & Waste": 107,
+    "Pedestrian Crossing": 17,
+    "Traffic Signal": 60,
+    "Contaminated Water": 1,
+    "Water Leakage": 20,
+    "Water Supply": 16
+  },
+  "evaluation": {
+    "split": "75/25 GroupShuffleSplit by normalized model text, random_state=42",
+    "category_group": {
+      "accuracy": 0.9796,
+      "macro_f1": 0.9743,
+      "report": {
+        "Electricity": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 14.0
+        },
+        "Public Safety": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 12.0
+        },
+        "Roads and Infrastructure": {
+          "precision": 0.9285714285714286,
+          "recall": 0.9285714285714286,
+          "f1-score": 0.9285714285714286,
+          "support": 14.0
+        },
+        "Sanitation": {
+          "precision": 1.0,
+          "recall": 0.96875,
+          "f1-score": 0.9841269841269841,
+          "support": 32.0
+        },
+        "Transportation": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 19.0
+        },
+        "Water Supply": {
+          "precision": 0.875,
+          "recall": 1.0,
+          "f1-score": 0.9333333333333333,
+          "support": 7.0
+        },
+        "accuracy": 0.9795918367346939,
+        "macro avg": {
+          "precision": 0.9672619047619048,
+          "recall": 0.9828869047619048,
+          "f1-score": 0.9743386243386244,
+          "support": 98.0
+        },
+        "weighted avg": {
+          "precision": 0.9808673469387755,
+          "recall": 0.9795918367346939,
+          "f1-score": 0.9798509880142533,
+          "support": 98.0
+        }
+      },
+      "train_records": 291,
+      "test_records": 98,
+      "test_labels": [
+        "Electricity",
+        "Public Safety",
+        "Roads and Infrastructure",
+        "Sanitation",
+        "Transportation",
+        "Water Supply"
+      ]
+    },
+    "subcategory_end_to_end": {
+      "accuracy": 0.9388,
+      "macro_f1": 0.7697,
+      "report": {
+        "Contaminated Water": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 1.0
+        },
+        "Drainage": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1-score": 0.6666666666666666,
+          "support": 2.0
+        },
+        "Electrical Hazard": {
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1-score": 0.6666666666666666,
+          "support": 2.0
+        },
+        "Garbage & Waste": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 30.0
+        },
+        "Illegal Construction": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.8,
+          "support": 3.0
+        },
+        "Pedestrian Crossing": {
+          "precision": 1.0,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.8,
+          "support": 3.0
+        },
+        "Pedestrian Safety": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 12.0
+        },
+        "Road Damage": {
+          "precision": 0.9166666666666666,
+          "recall": 1.0,
+          "f1-score": 0.9565217391304348,
+          "support": 11.0
+        },
+        "Streetlight": {
+          "precision": 0.9230769230769231,
+          "recall": 1.0,
+          "f1-score": 0.96,
+          "support": 12.0
+        },
+        "Traffic Signal": {
+          "precision": 0.9411764705882353,
+          "recall": 1.0,
+          "f1-score": 0.9696969696969697,
+          "support": 16.0
+        },
+        "Water Leakage": {
+          "precision": 0.6,
+          "recall": 1.0,
+          "f1-score": 0.75,
+          "support": 3.0
+        },
+        "Water Supply": {
+          "precision": 0.6666666666666666,
+          "recall": 0.6666666666666666,
+          "f1-score": 0.6666666666666666,
+          "support": 3.0
+        },
+        "accuracy": 0.9387755102040817,
+        "macro avg": {
+          "precision": 0.8372988939165409,
+          "recall": 0.7499999999999999,
+          "f1-score": 0.7696848924022835,
+          "support": 98.0
+        },
+        "weighted avg": {
+          "precision": 0.9389702034660018,
+          "recall": 0.9387755102040817,
+          "f1-score": 0.9313628297168669,
+          "support": 98.0
+        }
+      },
+      "train_records": 291,
+      "test_records": 98,
+      "test_labels": [
+        "Contaminated Water",
+        "Drainage",
+        "Electrical Hazard",
+        "Garbage & Waste",
+        "Illegal Construction",
+        "Pedestrian Crossing",
+        "Pedestrian Safety",
+        "Road Damage",
+        "Streetlight",
+        "Traffic Signal",
+        "Water Leakage",
+        "Water Supply"
+      ]
+    }
+  },
+  "limitations": [
+    "The source contains structured Problem and Problem Detail labels, not citizen-written narratives.",
+    "Target labels are a documented mapping from NYC categories to the app's local civic taxonomy.",
+    "Severity is not labeled in this source and is not trained by this model.",
+    "The NYC label distribution and terminology may not represent the deployment jurisdiction."
+  ]
+}

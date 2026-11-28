@@ -188,10 +188,7 @@
         `<option value="${escapeHTML(value)}">${escapeHTML(value)}</option>`).join('');
       if (preferred && options.includes(preferred)) subcategory.value = preferred;
     }
-    const unreviewed = () => { $('r-classification-reviewed').checked = false; };
-    group.addEventListener('change', () => { syncSubcategories(); unreviewed(); });
-    subcategory.addEventListener('change', unreviewed);
-    $('r-severity').addEventListener('change', unreviewed);
+    group.addEventListener('change', () => syncSubcategories());
     syncSubcategories();
     $('r-reported-date').value = new Date().toISOString().slice(0, 10);
 
@@ -208,7 +205,6 @@
 
     const suggest = debounce(async () => {
       const title = $('r-title').value.trim(), description = $('r-desc').value.trim();
-      unreviewed();
       if (title.length + description.length < 8) {
         suggestionBox.style.display = 'none';
         return;
@@ -224,7 +220,10 @@
         group.value = result.category_group;
         syncSubcategories(result.subcategory);
         $('r-severity').value = result.severity;
-        suggestionText.textContent = `${result.category_group} / ${result.subcategory} · ${result.severity} severity · model margin ${Math.round(result.confidence * 100)}% (not a calibrated probability).`;
+        const margin = result.confidence == null
+          ? 'single-label subcategory model'
+          : `category margin ${Math.round(result.confidence * 100)}% (uncalibrated)`;
+        suggestionText.textContent = `${result.category_group} / ${result.subcategory} · ${result.severity} severity · ${margin} · NYC 311 real-data model.`;
         duplicates.innerHTML = result.duplicate_candidates.length
           ? 'Possible nearby duplicates: ' + result.duplicate_candidates.map(item =>
             `<a href="#" data-duplicate="${item.id}">${escapeHTML(item.title)} (${Math.round(item.similarity * 100)}% text similarity)</a>`
@@ -352,7 +351,10 @@
     const comments = await fetchJSON(`/api/issues/${issueId}/comments`);
 
     const own = issue.reporter_id === window.URBANPULSE.userId;
-    const canVote = !own && issue.status !== 'Resolved';
+    const voteDisabledReason = ['Resolved', 'Verified'].includes(issue.public_status)
+      ? 'Voting is closed for resolved issues.'
+      : '';
+    const canVote = !voteDisabledReason;
     const canVerify = own && issue.public_status === 'Resolved';
     const lifecycleIndex = window.URBANPULSE.lifecycle.indexOf(issue.public_status);
     const nextLifecycle = window.URBANPULSE.lifecycle[lifecycleIndex + 1];
@@ -391,12 +393,15 @@
       ${issue.completion_photo_url && issue.status === 'Resolved' ? `<img class="issue-detail__photo" src="${issue.completion_photo_url}" alt="Photo of the completed work" id="detail-proof">` : ''}
       <p style="margin:0 0 10px;">${rewardLine(issue)}</p>
       <div class="issue-detail__row">
-        <button class="btn btn-ghost btn-sm" id="btn-upvote" ${canVote ? '' : 'disabled'}>▲ ${issue.upvotes}</button>
-        <button class="btn btn-ghost btn-sm" id="btn-downvote" ${canVote ? '' : 'disabled'}>▼ ${issue.downvotes}</button>
+        <button class="btn btn-ghost btn-sm" id="btn-upvote" aria-label="Upvote issue"
+          title="${voteDisabledReason}" ${canVote ? '' : 'disabled'}>▲ ${issue.upvotes}</button>
+        <button class="btn btn-ghost btn-sm" id="btn-downvote" aria-label="Downvote issue"
+          title="${voteDisabledReason}" ${canVote ? '' : 'disabled'}>▼ ${issue.downvotes}</button>
         <button class="btn btn-ghost btn-sm" id="btn-follow-issue">${issue.followed_by_me ? 'Following issue' : 'Follow issue'}</button>
         <span class="hint mono" title="Severity + votes + waiting time">Impact score: ${issue.impact_score}</span>
         ${lifecycleAction}
       </div>
+      ${voteDisabledReason ? `<p class="hint">${escapeHTML(voteDisabledReason)}</p>` : ''}
       <h3 style="font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-top:18px;">Status timeline</h3>
       <div class="timeline">${issue.timeline.map(t => `
         <div class="timeline-item"><div class="st">${escapeHTML(t.status)}</div>

@@ -1,10 +1,9 @@
 """
 UrbanPulse — intelligence.py
-The rule-based "civic intelligence" layer. Everything here is deterministic
-and explainable: for any output you can point at the exact rule that
-produced it, which is the point for a public-service system where a citizen
-or an auditor may ask "why was this ranked first?" or "why was this payout
-held back?".
+The civic intelligence layer combines explicit rules with a learned text
+classifier. Priority and payout-related decisions are deterministic and
+explainable; category suggestions are produced by a TF-IDF/SVM model trained
+on the documented NYC 311 snapshot.
 
   1. classify_priority()        severity from report text + category
   2. impact_score()             worklist ranking (0-100): severity + votes + waiting time
@@ -23,6 +22,8 @@ from PIL import Image, ImageFilter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.svm import LinearSVC
+
+from civic_text import classifier_text
 
 
 # ---------------------------------------------------------------------------
@@ -86,38 +87,57 @@ def classify_priority(title: str, description: str, category: str = "Other") -> 
 
 
 # ---------------------------------------------------------------------------
-# 1b. Provisional text classification (TF-IDF + linear SVM)
+# 1b. Public 311 classification (TF-IDF + linear SVM)
 # ---------------------------------------------------------------------------
-TRAINING_DATA_PATH = Path(__file__).resolve().parent / "data" / "civic_training.csv"
+TRAINING_DATA_PATH = Path(__file__).resolve().parent / "data" / "civic_training_real.csv"
+TRAINING_DATASET_ID = "NYC Open Data: 311 Service Requests from 2020 to Present (erm2-nwe9)"
+
+
+class _SingleClassModel:
+    def __init__(self, label):
+        self.label = label
+
+    def predict(self, matrix):
+        return [self.label] * matrix.shape[0]
 
 
 def _train_text_models():
     rows = []
     with TRAINING_DATA_PATH.open(encoding="utf-8", newline="") as source:
         rows.extend(csv.DictReader(source))
-    if len(rows) < 12:
-        raise RuntimeError(f"ML training corpus is too small: {TRAINING_DATA_PATH}")
+    if len(rows) < 60:
+        raise RuntimeError(f"Real 311 training corpus is missing or too small: {TRAINING_DATA_PATH}")
 
-    texts = [f"{row['title']} {row['description']}" for row in rows]
+    texts = [
+        classifier_text(
+            " ".join(
+                field for field in (
+                    row["problem_detail"], row["additional_detail"], row["location_type"]
+                ) if field
+            )
+        )
+        for row in rows
+    ]
     vectorizer = TfidfVectorizer(ngram_range=(1, 2), sublinear_tf=True)
     matrix = vectorizer.fit_transform(texts)
 
     category_model = LinearSVC(class_weight="balanced", random_state=42).fit(
-        matrix, [row["category"] for row in rows]
-    )
-    severity_model = LinearSVC(class_weight="balanced", random_state=42).fit(
-        matrix, [row["severity"] for row in rows]
+        matrix, [row["category_group"] for row in rows]
     )
     subcategory_models = {}
-    for category in sorted({row["category"] for row in rows}):
-        indexes = [i for i, row in enumerate(rows) if row["category"] == category]
-        subcategory_models[category] = LinearSVC(class_weight="balanced", random_state=42).fit(
-            matrix[indexes], [rows[i]["subcategory"] for i in indexes]
-        )
-    return vectorizer, category_model, subcategory_models, severity_model
+    for category in sorted({row["category_group"] for row in rows}):
+        indexes = [i for i, row in enumerate(rows) if row["category_group"] == category]
+        labels = [rows[i]["subcategory"] for i in indexes]
+        if len(set(labels)) == 1:
+            subcategory_models[category] = _SingleClassModel(labels[0])
+        else:
+            subcategory_models[category] = LinearSVC(class_weight="balanced", random_state=42).fit(
+                matrix[indexes], labels
+            )
+    return vectorizer, category_model, subcategory_models
 
 
-_TEXT_VECTORIZER, _CATEGORY_MODEL, _SUBCATEGORY_MODELS, _SEVERITY_MODEL = _train_text_models()
+_TEXT_VECTORIZER, _CATEGORY_MODEL, _SUBCATEGORY_MODELS = _train_text_models()
 
 
 def _margin_confidence(model, vector):
@@ -138,18 +158,48 @@ def _margin_confidence(model, vector):
 
 
 def classify_issue(title, description):
-    """Return provisional TF-IDF/SVM labels and an uncalibrated margin indicator."""
-    vector = _TEXT_VECTORIZER.transform([f"{title} {description}"])
+    """Classify against NYC 311 data; severity remains deterministic and rule-based."""
+    vector = _TEXT_VECTORIZER.transform([classifier_text(f"{title} {description}")])
     category = _CATEGORY_MODEL.predict(vector)[0]
-    subcategory = _SUBCATEGORY_MODELS[category].predict(vector)[0]
-    severity = _SEVERITY_MODEL.predict(vector)[0]
+    subcategory_model = _SUBCATEGORY_MODELS[category]
+    subcategory = subcategory_model.predict(vector)[0]
+    severity = classify_civic_severity(title, description, subcategory)
     return {
         "category_group": str(category),
         "subcategory": str(subcategory),
         "severity": str(severity),
         "confidence": _margin_confidence(_CATEGORY_MODEL, vector),
-        "model_status": "provisional",
+        "model_status": "real_data",
+        "model_dataset": TRAINING_DATASET_ID,
     }
+
+
+SUBCATEGORY_BASE_SEVERITY = {
+    "Pothole": "Medium",
+    "Road Damage": "Medium",
+    "Illegal Construction": "Low",
+    "Water Supply": "Medium",
+    "Water Leakage": "Medium",
+    "Contaminated Water": "High",
+    "Electrical Hazard": "High",
+    "Streetlight": "Low",
+    "Power Outage": "Medium",
+    "Drainage": "Medium",
+    "Garbage & Waste": "Low",
+    "Public Toilets": "Low",
+    "Open Manhole": "High",
+    "Fire Hazard": "High",
+    "Environmental Hazard": "High",
+    "Pedestrian Safety": "Medium",
+    "Traffic Signal": "Medium",
+    "Bus Stop": "Low",
+    "Pedestrian Crossing": "Medium",
+}
+
+
+def classify_civic_severity(title, description, subcategory):
+    base = SUBCATEGORY_BASE_SEVERITY.get(subcategory, "Medium")
+    return max(base, classify_priority(title, description, subcategory), key=RANK.get)
 
 
 def find_duplicate_candidates(title, description, lat, lng, issues, radius_km=0.5, threshold=0.58):

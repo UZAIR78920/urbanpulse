@@ -8,7 +8,7 @@ sponsor-funded reward, and municipal admin workflows remain available.
 | Role | Can do |
 |---|---|
 | **Citizen** | Report issues with text, images/video, category, severity, date and location; vote, comment, follow, verify resolution, earn Civic XP |
-| **Politician** | Register with an official email, verify it, await admin approval, follow assigned issues through the lifecycle, earn Civic XP |
+| **Politician** | Register and await admin approval, follow assigned issues through the lifecycle, earn Civic XP |
 | **Worker** | See funded jobs matching their skill and service area; claim, repair, submit proof photo, and receive sponsor-funded rewards |
 | **Admin** | Review politician accounts, manage civic issue stages, view analytics/hotspots, manage sponsor budgets, review flagged payouts |
 
@@ -36,22 +36,8 @@ Delete `urbanpulse.db` to reset the demo data. GPS needs `localhost` or HTTPS
 (`URBANPULSE_HTTPS=1 python app.py` + `pip install cryptography` for testing from a phone).
 The map, place search and fonts load from public services, so those need internet.
 
-Politician registration additionally requires a verified official email and
-administrator approval. Configure SMTP before enabling it:
-
-```text
-URBANPULSE_PUBLIC_URL=https://your-civicconnect-host
-URBANPULSE_SMTP_HOST=your-smtp-host
-URBANPULSE_SMTP_PORT=587
-URBANPULSE_SMTP_FROM=no-reply@your-civicconnect-host
-URBANPULSE_SMTP_USER=...
-URBANPULSE_SMTP_PASSWORD=...
-URBANPULSE_SMTP_STARTTLS=1
-URBANPULSE_POLITICIAN_EMAIL_DOMAINS=city.gov.in,nic.in
-```
-
-By default, email addresses ending in `.gov`, `.gov.in`, or `.nic.in` are
-accepted; `URBANPULSE_POLITICIAN_EMAIL_DOMAINS` adds exact permitted domains.
+Politician registration requires administrator approval before the account can
+sign in. No email verification or SMTP configuration is required.
 The SQLite schema upgrades additively when the app starts and preserve existing
 accounts and issue/reward data.
 
@@ -85,17 +71,32 @@ worker's wallet when the proof photo is verified, and refunded to the sponsor if
   (dark/blank/blurry) and re-submitting the citizen's original photo (perceptual hash). Stats are computed on a 256 px
   copy so thresholds don't depend on camera resolution. A flagged photo is never auto-rejected — a human
   admin approves (pay) or rejects (worker retakes the photo, keeps the lock and the escrow).
-* **Text suggestions** use TF-IDF features with linear SVM classifiers for category, subcategory and severity.
-  Citizens can review and change the suggestion. The included `data/civic_training.csv` is a provisional
-  development corpus, not representative or production-validated; the displayed margin is not a calibrated
-  probability.
+* **Text suggestions** use TF-IDF + linear SVM classifiers trained on real NYC 311 complaint labels for the
+  category and subcategory. Inputs are the title and description; a small shared normalization maps drainage
+  phrases to matching NYC sewer terminology. Severity remains deterministic and rule-based because this source
+  has no severity labels. Citizens can review and edit suggestions. The displayed category margin is not a
+  calibrated probability.
 * **Duplicate candidates** combine TF-IDF text similarity with a 500 m location check. They are suggestions only:
   reports are never automatically merged or hidden.
 
-The app fits the text models once at startup from `data/civic_training.csv`
-(`title,description,category,subcategory,severity`). Replacing the starter corpus
-requires restarting the app. Add a held-out evaluation and representative local
-training data before relying on model quality in production.
+The checked-in `data/civic_training_real.csv` snapshot contains 389 unique structured records from NYC Open Data's
+311 Service Requests dataset (`erm2-nwe9`), spanning six mapped civic categories. The training/evaluation
+pipeline is reproducible with:
+
+```bash
+python scripts/train_civic_model.py
+```
+
+It downloads the latest selected records, evaluates a grouped 75/25 holdout, and writes the training CSV plus
+detailed metrics to `data/civic_model_metrics.json`. The current snapshot was retrieved 2026-11-28; the held-out
+results are **97.96% category accuracy / 0.9743 macro-F1** and **93.88% end-to-end subcategory accuracy /
+0.7697 macro-F1** on 98 held-out records. The lower subcategory macro-F1 reflects rare classes. The app loads
+the saved snapshot at startup, so retraining requires restarting the app.
+
+The NYC source provides structured problem labels/descriptors, not citizen-written narratives, and its terms may
+not match the deployment region. NYC's dataset metadata has no populated license identifier; check its current
+terms before redistributing the snapshot outside this project. These results are a held-out transfer baseline,
+not local or production validation.
 
 ### 4. Civic issue accountability
 Issues use a separate civic lifecycle—`Reported → Under Review → Acknowledged → Assigned → In Progress → Resolved → Verified`—
@@ -150,10 +151,10 @@ reserved for its reporting user; the legacy worker reward status remains final a
 
 ## Honest limitations
 * No rate limiting on login / invite code (the code is logged on failure).
-* The SVM starter corpus is development-only; production use needs representative, labeled local complaints and a
-  held-out evaluation. Its margin indicator is not calibrated confidence.
-* Politician email verification needs externally configured SMTP and a trusted `URBANPULSE_PUBLIC_URL`. The
-  accepted official-email domains must be configured for the jurisdiction.
+* The real-data model is an NYC-to-local taxonomy transfer baseline, not validated on local citizen narratives.
+  Add representative locally labeled complaints and reevaluate before production use. Severity is rule-based;
+  the model margin is not calibrated confidence.
+* Politician accounts require administrator approval before sign-in.
 * The photo check can't tell *what* is in a photo, only that it isn't junk or a copy.
   Thresholds (score ≥ 70, brightness, detail) are reasonable defaults, not tuned on real data; a dimly lit night repair may be flagged — costing the admin one click, not the worker their pay.
 * Wallet is a ledger balance; there is no withdrawal/bank integration.
@@ -164,7 +165,9 @@ reserved for its reporting user; the legacy worker reward status remains final a
 app.py             routes, auth, CSRF, REST API, SSE, civic workflow, escrow/payout logic
 database.py        schema, additive upgrades, demo seed
 intelligence.py    TF-IDF/SVM suggestions, duplicate candidates, priority, hotspots, photo checks
-data/              provisional civic issue training corpus
+civic_text.py      shared model text normalization
+scripts/           real-data training and evaluation pipeline
+data/              NYC 311 training snapshot and held-out metrics
 tests/             civic/social workflow and business-rule tests
 templates/ static/  landing, issue console, worker/admin consoles, politician directory, profiles
 ```

@@ -1,8 +1,8 @@
 # CivicConnect Implementation Tracker
 
-**Project status:** Confirmed development scope implemented; production ML evaluation remains pending  
-**Last reviewed:** 2026-11-26  
-**Application code changes:** Implemented for the confirmed scope; model evaluation on real data remains pending
+**Project status:** CivicConnect implementation complete; real-data ML transfer baseline integrated  
+**Last reviewed:** 2026-11-28  
+**Application code changes:** Implemented for confirmed scope; local production ML validation remains pending
 
 This tracker records the baseline UrbanPulse behavior, requested CivicConnect
 features, the confirmed delivery sequence, and changes made during implementation.
@@ -59,8 +59,8 @@ civic reports, skilled-worker jobs, and sponsor-funded rewards.
 ### Phase 0 — Confirm scope and data
 - [x] Preserve the existing worker, sponsor-reward, and admin workflows
   alongside the new citizen/politician experience.
-- [x] Verify politician accounts through both admin approval and official-email
-  verification.
+- [x] Require admin approval for politician accounts; email verification is not
+  required (confirmed 2026-11-28).
 - [x] Use a clearly marked, development-only starter corpus; obtain real labeled
   data and evaluate the model before production use.
 
@@ -80,24 +80,25 @@ civic reports, skilled-worker jobs, and sponsor-funded rewards.
   in scope.
 
 ### Phase 3 — Civic social features
-- [x] Add comments and one up/down vote per user, with self-vote and resolved
-  issue rules defined.
+- [x] Add comments and one up/down vote per user; resolved issues are closed to
+  voting, while reporters may vote on their own open reports.
 - [x] Add follows for politicians and issues.
 - [x] Build a ranked homepage/feed for popular and relevant posts, without
   letting popularity obscure urgent/high-severity complaints.
 
 ### Phase 4 — ML intelligence
-- [x] Add TF-IDF + linear SVM category, subcategory, and severity suggestions;
-  expose the provisional margin and allow citizens to correct/confirm.
-- [x] Require reporter review before submitting a report using the new taxonomy;
-  do not apply an arbitrary threshold to an uncalibrated margin.
+- [x] Add TF-IDF + linear SVM category and subcategory suggestions from real NYC
+  311 records; severity remains deterministic because the source has no severity
+  labels.
+- [x] Keep category and severity suggestions editable, without requiring a
+  separate confirmation checkbox before report submission.
 - [x] Add duplicate-candidate detection using text similarity plus location;
   present candidates for confirmation rather than silently merging complaints.
-- [ ] Measure model performance on a real, held-out labeled dataset. The
-  approved 54-example starter corpus is development-only; production use must
-  wait for local labeled data and evaluation.
-- [ ] Add a production training/evaluation pipeline once real labeled data is
-  available.
+- [x] Measure category and end-to-end subcategory performance on a real,
+  grouped 75/25 held-out dataset.
+- [x] Add a reproducible download, curation, training, and evaluation pipeline.
+- [ ] Validate with representative local citizen narratives before production
+  use; NYC structured labels are only a transfer baseline.
 
 ### Phase 5 — Profiles, XP, and accountability
 - [x] Define transparent XP rules for verified citizen contributions and
@@ -119,16 +120,21 @@ civic reports, skilled-worker jobs, and sponsor-funded rewards.
 
 ## Implementation notes and remaining limitations
 
-- **ML corpus:** `data/civic_training.csv` contains 54 provisional development
-  examples across six categories and 18 subcategories. No local production
-  dataset or held-out accuracy evaluation exists yet. The shown SVM margin is
-  explicitly not a calibrated probability; reporters confirm the suggested
-  category/severity before submitting.
+- **ML corpus:** `data/civic_training_real.csv` contains 389 unique structured
+  records from NYC Open Data dataset `erm2-nwe9`, mapped to six CivicConnect
+  categories. `scripts/train_civic_model.py` downloads, evaluates, and exports
+  the corpus; metrics and retrieval timestamp are recorded in
+  `data/civic_model_metrics.json`. Grouped 75/25 holdout results: category
+  accuracy 0.9796 / macro-F1 0.9743; end-to-end subcategory accuracy 0.9388 /
+  macro-F1 0.7697 (98 held-out records). This does not establish accuracy on
+  local narrative reports. Severity is rule-based because the source has no
+  severity labels; model margin is not calibrated confidence.
 - **Duplicate detection:** TF-IDF similarity is combined with a 500 m proximity
   check. Matches are review candidates, never auto-merged.
-- **Politician verification:** SMTP and `URBANPULSE_PUBLIC_URL` must be
-  configured. Registration requires an allowed government email domain, a
-  verification link, and admin approval.
+- **Politician approval:** Registration accepts any valid email. Politicians
+  cannot sign in until an administrator approves their account. Legacy email
+  verification columns remain in SQLite for compatibility but are no longer
+  used by application logic.
 - **Media:** Up to five attachments; videos are MP4/WebM and max 20 MB each;
   requests are capped at 25 MB.
 - **XP:** Citizen reports earn XP only after verification; one comment XP award
@@ -142,10 +148,10 @@ The initial scope decisions have been confirmed:
 
 - Keep skilled workers, sponsors, rewards, and administrators as additional
   roles.
-- Require admin approval and official-email verification before activating a
-  politician account.
-- Use a provisional starter corpus for development only; production readiness
-  depends on a real labeled dataset and measured evaluation results.
+- Require admin approval before activating a politician account; email
+  verification is not required (updated 2026-11-28).
+- Use NYC 311 as an initial real-data transfer baseline; production readiness
+  depends on representative local narrative data and measured evaluation.
 
 ## Change log
 
@@ -155,3 +161,8 @@ The initial scope decisions have been confirmed:
 | 2026-11-26 | Recorded confirmed scope: preserve existing worker/admin/reward features; politician activation requires admin approval and official-email verification; development-only starter ML corpus. | Planning decision; no application behavior changed. |
 | 2026-11-26 | Added additive schema upgrades, politician verification/review, the seven-stage lifecycle, image/video media, comments, directional votes, issue/politician follows, popularity ranking, Civic XP/profiles, and accountability metrics. | 32 tests pass; existing worker/reward regression tests retained. |
 | 2026-11-26 | Added provisional TF-IDF + linear SVM classification, reporter confirmation, location-aware duplicate candidates, ML corpus, and updated README/setup guidance. | 54 development examples; sample drainage prediction returns Sanitation / Drainage / Medium; no production/held-out accuracy claim. |
+| 2026-11-28 | Removed politician email/domain verification; politicians can register with any valid email but require admin approval to sign in. Removed mandatory category/severity confirmation checkbox/server rejection; category and severity remain editable. | Regression tests cover admin approval gating and successful submission without a confirmation field. |
+| 2026-11-28 | Replaced the provisional runtime classifier corpus with a real NYC 311 training snapshot; added reproducible download/curation, grouped holdout evaluation, category/subcategory SVMs, shared drainage terminology normalization, and rule-based severity (no real severity labels available). | 389 unique records; 98-record grouped holdout: category accuracy 0.9796 / macro-F1 0.9743; end-to-end subcategory accuracy 0.9388 / macro-F1 0.7697. All 32 tests pass; Python and JavaScript syntax checks pass; all training labels match the app taxonomy. |
+| 2026-11-28 | Fixed vote totals so upvote/downvote switching and removal adjust the stored count instead of replacing legacy totals with rows from the new votes table. | Regression test covers preserving seeded upvotes through upvote, direction switch, and removal; browser check confirms counts update correctly. |
+| 2026-11-28 | Added an inline reason when vote controls are disabled. At that time, the default Citizen owned the demo-seeded reports and self-voting was blocked; resolved issues were also closed to voting. | Verified the default seed ownership and disabled-state logic; active controls worked for other users' unresolved reports. |
+| 2026-11-28 | Enabled upvotes and downvotes on a reporter's own open issues; only resolved/verified issues remain closed to voting. | Citizen API regression test verifies POST upvote, POST downvote switch, and POST vote removal. |

@@ -15,7 +15,7 @@
               ${p.followed_by_me ? 'Following' : 'Follow'}
             </button>
           </div>
-        </article>`).join('') : '<p class="empty-state">No verified politicians are listed yet.</p>';
+        </article>        `).join('') : '<p class="empty-state">No approved politicians are listed yet.</p>';
       list.querySelectorAll('[data-follow]').forEach(button => button.addEventListener('click', async () => {
         try {
           const result = await fetchJSON(`/api/politicians/${button.dataset.follow}/follow`, { method: 'POST' });

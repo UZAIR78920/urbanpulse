@@ -18,7 +18,6 @@ Reward lifecycle (the part worth understanding first)
 """
 
 import csv
-import hashlib
 import hmac
 import io
 import json
@@ -28,11 +27,9 @@ import os
 import queue
 import re
 import secrets
-import smtplib
 import threading
 import uuid
 from datetime import date, datetime, timedelta, timezone
-from email.message import EmailMessage
 from functools import wraps
 
 from flask import (Flask, Response, abort, g, jsonify, redirect, render_template,
@@ -76,7 +73,7 @@ SUBCATEGORY_GROUPS = {
     "Water Supply": ["Water Supply", "Water Leakage", "Contaminated Water"],
     "Electricity": ["Electrical Hazard", "Streetlight", "Power Outage"],
     "Sanitation": ["Drainage", "Garbage & Waste", "Public Toilets"],
-    "Public Safety": ["Open Manhole", "Fire Hazard", "Pedestrian Safety"],
+    "Public Safety": ["Open Manhole", "Fire Hazard", "Pedestrian Safety", "Environmental Hazard"],
     "Transportation": ["Traffic Signal", "Bus Stop", "Pedestrian Crossing"],
 }
 SUBCATEGORY_GROUP = {
@@ -223,42 +220,7 @@ def award_xp(db, user_id, issue_id, event_type, points):
         db.execute("UPDATE users SET civic_xp=civic_xp+? WHERE id=?", (points, user_id))
 
 
-def is_official_email(email):
-    domain = email.rsplit("@", 1)[-1].lower()
-    configured = {
-        item.strip().lower()
-        for item in os.environ.get("URBANPULSE_POLITICIAN_EMAIL_DOMAINS", "").split(",")
-        if item.strip()
-    }
-    return domain in configured or domain.endswith((".gov", ".gov.in", ".nic.in"))
 
-
-def send_politician_verification(email, token):
-    host = os.environ.get("URBANPULSE_SMTP_HOST")
-    sender = os.environ.get("URBANPULSE_SMTP_FROM")
-    public_url = os.environ.get("URBANPULSE_PUBLIC_URL", "").rstrip("/")
-    if not host or not sender or not public_url:
-        raise RuntimeError(
-            "Politician email verification is not configured; set SMTP and URBANPULSE_PUBLIC_URL."
-        )
-    port = int(os.environ.get("URBANPULSE_SMTP_PORT", "587"))
-    message = EmailMessage()
-    message["Subject"] = "Verify your CivicConnect official email"
-    message["From"] = sender
-    message["To"] = email
-    verify_url = public_url + url_for("verify_politician_email", token=token)
-    message.set_content(
-        f"Verify your official email for CivicConnect by opening this link:\n\n{verify_url}\n\n"
-        "This link expires in 24 hours. Admin approval is also required."
-    )
-    with smtplib.SMTP(host, port, timeout=15) as smtp:
-        if os.environ.get("URBANPULSE_SMTP_STARTTLS", "1") == "1":
-            smtp.starttls()
-        username = os.environ.get("URBANPULSE_SMTP_USER")
-        password = os.environ.get("URBANPULSE_SMTP_PASSWORD")
-        if username:
-            smtp.login(username, password or "")
-        smtp.send_message(message)
 
 
 def log_status(db, issue_id, status, note, when):
@@ -547,29 +509,18 @@ def register():
         return fail("An account with this email already exists.")
 
     if role == "politician":
-        if not is_official_email(email):
-            return fail("Politician registration requires an official .gov, .gov.in or .nic.in email address.")
-        token = secrets.token_urlsafe(32)
-        try:
-            send_politician_verification(email, token)
-        except (OSError, RuntimeError, smtplib.SMTPException, ValueError) as e:
-            app.logger.error("Could not send politician verification email to %s: %s", email, e)
-            return fail("Could not send the official-email verification link. Check the email configuration and try again.", 503)
         cur = db.execute(
             """INSERT INTO users (name,email,password_hash,role,portal_role,politician_title,
-                                  politician_constituency,politician_status,verification_token_hash,
-                                  verification_expires_at,created_at)
-               VALUES (?,?,?,'citizen','politician',? ,?,'pending',?,?,?)""",
+                                  politician_constituency,politician_status,created_at)
+               VALUES (?,?,?,'citizen','politician',?,?,'pending',?)""",
             (name, email, generate_password_hash(password),
              request.form.get("politician_title", "").strip()[:100],
              request.form.get("politician_constituency", "").strip()[:120],
-             hashlib.sha256(token.encode()).hexdigest(),
-             (datetime.now(timezone.utc) + timedelta(hours=24)).isoformat(timespec="seconds"),
              now_iso()),
         )
         db.commit()
         return landing_page(
-            "Check your official email for a verification link. An administrator must also approve your account.",
+            "Your politician account was submitted for administrator approval.",
             "login", "politician",
         )
 
@@ -591,8 +542,6 @@ def login():
     if not user or not check_password_hash(user["password_hash"], request.form.get("password", "")):
         return landing_page("Incorrect email or password.", status=401)
     if user["portal_role"] == "politician":
-        if not user["official_email_verified"]:
-            return landing_page("Verify your official email before signing in as a politician.", status=403)
         if user["politician_status"] != "approved":
             return landing_page("Your politician account is awaiting administrator approval.", status=403)
     start_session(user)       # the account's stored role decides where they land — no role picker needed
@@ -604,34 +553,6 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("landing"))
-
-
-@app.route("/auth/verify-politician/<token>")
-def verify_politician_email(token):
-    digest = hashlib.sha256(token.encode()).hexdigest()
-    user = get_db().execute(
-        """SELECT id, verification_expires_at FROM users
-           WHERE portal_role='politician' AND verification_token_hash=?""",
-        (digest,),
-    ).fetchone()
-    if not user:
-        return landing_page("That verification link is invalid or has already been used.", status=400)
-    try:
-        expires = datetime.fromisoformat(user["verification_expires_at"])
-    except (TypeError, ValueError):
-        expires = datetime.min.replace(tzinfo=timezone.utc)
-    if expires.tzinfo is None:
-        expires = expires.replace(tzinfo=timezone.utc)
-    if expires < datetime.now(timezone.utc):
-        return landing_page("That verification link has expired. Please register again.", status=400)
-    db = get_db()
-    db.execute(
-        """UPDATE users SET official_email_verified=1, verification_token_hash=NULL,
-           verification_expires_at=NULL WHERE id=?""",
-        (user["id"],),
-    )
-    db.commit()
-    return landing_page("Official email verified. Your account is waiting for administrator approval.")
 
 
 # ---------------------------------------------------------------------------
@@ -759,9 +680,6 @@ def api_create_issue():
         return api_error("Choose a valid issue category.")
     if subcategory not in SUBCATEGORY_GROUPS[category_group] and subcategory not in CATEGORIES:
         return api_error("Choose a valid issue subcategory for the selected category.")
-    if data.get("category_group") and data.get("classification_reviewed") != "1":
-        return api_error("Please review and confirm the suggested category and severity before reporting.")
-
     try:
         severity = data.get("severity", "").strip()
         if severity and severity not in SEVERITIES:
@@ -781,7 +699,7 @@ def api_create_issue():
             return api_error("Choose a valid concerned politician.")
         politician = db.execute(
             """SELECT 1 FROM users WHERE id=? AND portal_role='politician'
-               AND politician_status='approved' AND official_email_verified=1""",
+               AND politician_status='approved'""",
             (politician_id,),
         ).fetchone()
         if not politician:
@@ -831,30 +749,44 @@ def api_upvote(issue_id):
     return apply_issue_vote(issue_id, 1)
 
 
+def _adjust_issue_upvotes(db, issue_id, delta):
+    if delta:
+        db.execute(
+            "UPDATE issues SET upvotes=MAX(0, upvotes + ?) WHERE id=?",
+            (delta, issue_id),
+        )
+
+
 def apply_issue_vote(issue_id, direction):
     db, uid = get_db(), session["user_id"]
     issue = get_issue_or_404(db, issue_id)
     if not issue:
         return api_error("Issue not found", 404)
-    if issue["reporter_id"] == uid:
-        return api_error("You can't vote on your own report.", 403)
     if issue["lifecycle_status"] in ("Resolved", "Verified"):
         return api_error("This issue is already resolved.", 409)
 
     existing = db.execute(
         "SELECT direction FROM votes WHERE user_id=? AND issue_id=?", (uid, issue_id)
     ).fetchone()
+    upvote_delta = 0
     if existing and existing["direction"] == direction:
         db.execute("DELETE FROM votes WHERE user_id=? AND issue_id=?", (uid, issue_id))
         chosen = 0
+        if direction == 1:
+            upvote_delta = -1
     elif existing:
         db.execute("UPDATE votes SET direction=? WHERE user_id=? AND issue_id=?", (direction, uid, issue_id))
         chosen = direction
+        if existing["direction"] == 1:
+            upvote_delta = -1
+        elif direction == 1:
+            upvote_delta = 1
     else:
         db.execute("INSERT INTO votes (user_id, issue_id, direction) VALUES (?,?,?)", (uid, issue_id, direction))
         chosen = direction
-    db.execute("UPDATE issues SET upvotes = (SELECT COUNT(*) FROM votes WHERE issue_id=? AND direction=1) WHERE id=?",
-               (issue_id, issue_id))
+        if direction == 1:
+            upvote_delta = 1
+    _adjust_issue_upvotes(db, issue_id, upvote_delta)
     db.commit()
     issue = reload_and_broadcast(db, issue_id, "votes_changed")
     return jsonify({"upvotes": issue["upvotes"], "downvotes": issue["downvotes"], "my_vote": chosen})
@@ -873,11 +805,12 @@ def api_vote_issue(issue_id):
         issue = get_issue_or_404(db, issue_id)
         if not issue:
             return api_error("Issue not found", 404)
-        if issue["reporter_id"] == uid:
-            return api_error("You can't vote on your own report.", 403)
-        db.execute("DELETE FROM votes WHERE user_id=? AND issue_id=?", (uid, issue_id))
-        db.execute("UPDATE issues SET upvotes=(SELECT COUNT(*) FROM votes WHERE issue_id=? AND direction=1) WHERE id=?",
-                   (issue_id, issue_id))
+        existing = db.execute(
+            "SELECT direction FROM votes WHERE user_id=? AND issue_id=?", (uid, issue_id)
+        ).fetchone()
+        if existing:
+            db.execute("DELETE FROM votes WHERE user_id=? AND issue_id=?", (uid, issue_id))
+            _adjust_issue_upvotes(db, issue_id, -1 if existing["direction"] == 1 else 0)
         db.commit()
         issue = reload_and_broadcast(db, issue_id, "votes_changed")
         return jsonify({"upvotes": issue["upvotes"], "downvotes": issue["downvotes"], "my_vote": 0})
@@ -944,7 +877,7 @@ def api_politicians():
                   (SELECT COUNT(*) FROM politician_follows f WHERE f.politician_id=u.id) AS followers_count,
                   EXISTS(SELECT 1 FROM politician_follows f WHERE f.politician_id=u.id AND f.user_id=?) AS followed_by_me
            FROM users u WHERE u.portal_role='politician' AND u.politician_status='approved'
-             AND u.official_email_verified=1 ORDER BY u.name""",
+           ORDER BY u.name""",
         (session["user_id"],),
     ).fetchall()
     return jsonify([dict(row) for row in rows])
@@ -956,7 +889,7 @@ def api_follow_politician(politician_id):
     db, uid = get_db(), session["user_id"]
     politician = db.execute(
         """SELECT 1 FROM users WHERE id=? AND portal_role='politician'
-           AND politician_status='approved' AND official_email_verified=1""",
+           AND politician_status='approved'""",
         (politician_id,),
     ).fetchone()
     if not politician:
@@ -984,10 +917,9 @@ def api_follow_politician(politician_id):
 @admin_required
 def api_pending_politicians():
     rows = get_db().execute(
-        """SELECT id,name,email,politician_title,politician_constituency,
-                  official_email_verified,created_at FROM users
+        """SELECT id,name,email,politician_title,politician_constituency,created_at FROM users
            WHERE portal_role='politician' AND politician_status='pending'
-           ORDER BY official_email_verified DESC,created_at"""
+           ORDER BY created_at"""
     ).fetchall()
     return jsonify([dict(row) for row in rows])
 
@@ -1006,8 +938,6 @@ def api_review_politician(politician_id):
     ).fetchone()
     if not politician:
         return api_error("Pending politician account not found.", 404)
-    if decision == "approve" and not politician["official_email_verified"]:
-        return api_error("The politician must verify their official email before approval.", 409)
     db.execute(
         "UPDATE users SET politician_status=? WHERE id=?",
         ("approved" if decision == "approve" else "rejected", politician_id),
@@ -1058,13 +988,13 @@ def api_update_lifecycle(issue_id):
                     return api_error("Choose a valid politician.")
                 active = db.execute(
                     """SELECT 1 FROM users WHERE id=? AND portal_role='politician'
-                       AND politician_status='approved' AND official_email_verified=1""",
+                       AND politician_status='approved'""",
                     (assigned_politician_id,),
                 ).fetchone()
                 if not active:
-                    return api_error("Choose an active verified politician.")
+                    return api_error("Choose an active approved politician.")
             if target == "Assigned" and assigned_politician_id is None:
-                return api_error("Assign this issue to a verified politician before advancing.")
+                return api_error("Assign this issue to an approved politician before advancing.")
         else:
             return api_error("Only the assigned politician or an administrator can update this stage.", 403)
 
